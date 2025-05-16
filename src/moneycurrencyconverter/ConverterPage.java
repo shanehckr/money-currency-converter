@@ -250,20 +250,20 @@ public class ConverterPage extends javax.swing.JFrame {
         rates.put("AFN",70.99);
         rates.put("ALL",86.81);
         rates.put("AMD",387.57);
-        rates.put("AFN",70.99);
-        rates.put("ALL",86.81);
-        rates.put("AED",3.67);
-        rates.put("AFN",70.99);
-        rates.put("ALL",86.81);
-        rates.put("AED",3.67);
-        rates.put("AFN",70.99);
-        rates.put("ALL",86.81);
-        rates.put("AED",3.67);
-        rates.put("AFN",70.99);
-        rates.put("ALL",86.81);
-        rates.put("AED",3.67);
-        rates.put("AFN",70.99);
-        rates.put("ALL",86.81);
+        rates.put("ANG",1.78);
+        rates.put("AOA",918.61);
+        rates.put("ARS",1173.61);
+        rates.put("AUD",1.56);
+        rates.put("AZN",1.69);
+        rates.put("BAM",1.71);
+        rates.put("BBD",2.00);
+        rates.put("BDT",121.43);
+        rates.put("BGN",1.71);
+        rates.put("BHD",0.376);
+        rates.put("BIF",2974.26);
+        rates.put("BMD",1.00);
+        rates.put("BND",1.31);
+        rates.put("BOB",6.91);
         
         
         // Hide labels for result
