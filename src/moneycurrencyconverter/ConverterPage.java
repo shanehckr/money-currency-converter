@@ -31,17 +31,210 @@ public class ConverterPage extends javax.swing.JFrame {
         setSize(425,610);
               
         
-        
+        // CODE HERE
         // From combobox currencies
         cbFrom.removeAllItems();
         cbFrom.addItem("AED");
         cbFrom.addItem("AFN");
+        cbFrom.addItem("ALL");
+        cbFrom.addItem("AMD");
+        cbFrom.addItem("ANG");
+        cbFrom.addItem("AOA");
+        cbFrom.addItem("ARS");
+        cbFrom.addItem("AUD");
+        cbFrom.addItem("AZN");
+        cbFrom.addItem("BAM");
+        cbFrom.addItem("BBD");
+        cbFrom.addItem("BDT");
+        cbFrom.addItem("BGN");
+        cbFrom.addItem("BHD");
+        cbFrom.addItem("BIF");
+        cbFrom.addItem("BMD");
+        cbFrom.addItem("BND");
+        cbFrom.addItem("BOB");
+        cbFrom.addItem("BRL");
+        cbFrom.addItem("BSD");
+        cbFrom.addItem("BTN");
+        cbFrom.addItem("BWP");
+        cbFrom.addItem("BYN");
+        cbFrom.addItem("BZD");
+        cbFrom.addItem("CAD");
+        cbFrom.addItem("CDF");
+        cbFrom.addItem("CHF");
+        cbFrom.addItem("CLP");
+        cbFrom.addItem("CNY");
+        cbFrom.addItem("COP");
+        cbFrom.addItem("CRC");
+        cbFrom.addItem("CUP");
+        cbFrom.addItem("CVE");
+        cbFrom.addItem("CZK");
+        cbFrom.addItem("DJF");
+        cbFrom.addItem("DKK");
+        cbFrom.addItem("DOP");
+        cbFrom.addItem("DZD");
+        cbFrom.addItem("EEK");
+        cbFrom.addItem("EGP");
+        cbFrom.addItem("ERN");
+        cbFrom.addItem("ETB");
+        cbFrom.addItem("EUR");
+        cbFrom.addItem("FJD");
+        cbFrom.addItem("FKP");
+        cbFrom.addItem("GBP");
+        cbFrom.addItem("GEL");
+        cbFrom.addItem("GGP");
+        cbFrom.addItem("GHS");
+        cbFrom.addItem("GIP");
+        cbFrom.addItem("GMD");
+        cbFrom.addItem("GNF");
+        cbFrom.addItem("GTQ");
+        cbFrom.addItem("GYD");
+        cbFrom.addItem("HKD");
+        cbFrom.addItem("HNL");
+        cbFrom.addItem("HTG");
+        cbFrom.addItem("HUF");
+        cbFrom.addItem("IDR");
+        cbFrom.addItem("ILS");
+        cbFrom.addItem("IMP");
+        cbFrom.addItem("INR");
+        cbFrom.addItem("IQD");
+        cbFrom.addItem("IRR");
+        cbFrom.addItem("ISK");
+        cbFrom.addItem("JEP");
+        cbFrom.addItem("JMD");
+        cbFrom.addItem("JOD");
+        cbFrom.addItem("JPY");
+        cbFrom.addItem("KES");
+        cbFrom.addItem("KJS");
+        cbFrom.addItem("KHR");
+        cbFrom.addItem("KMF");
+        cbFrom.addItem("KPW");
+        cbFrom.addItem("KRW");
+        cbFrom.addItem("KWD");
+        cbFrom.addItem("KYD");
+        cbFrom.addItem("KZT");
+        cbFrom.addItem("LAK");
+        cbFrom.addItem("LBP");
+        cbFrom.addItem("LKR");
+        cbFrom.addItem("LRD");
+        cbFrom.addItem("LSL");
+        cbFrom.addItem("LTL");
+        cbFrom.addItem("LVL");
+        cbFrom.addItem("LYD");
+        cbFrom.addItem("MAD");
+        cbFrom.addItem("MDL");
+        cbFrom.addItem("MGA");
+        cbFrom.addItem("MKD");
         
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        // CODE HERE
         // To combobox currencies
         cbTo.removeAllItems();
         cbTo.addItem("AED");
         cbTo.addItem("AFN");
+        cbTo.addItem("ALL");
+        cbTo.addItem("AMD"); 
+        cbTo.addItem("ANG");
+        cbTo.addItem("AOA");
+        cbTo.addItem("ARS");
+        cbTo.addItem("AUD");
+        cbTo.addItem("AZN");
+        cbTo.addItem("BAM");
+        cbTo.addItem("BBD");
+        cbTo.addItem("BDT");
+        cbTo.addItem("BGN");
+        cbTo.addItem("BHD");
+        cbTo.addItem("BIF");
+        cbTo.addItem("BMD");
+        cbTo.addItem("BND");
+        cbTo.addItem("BOB");
+        cbTo.addItem("BRL");
+        cbTo.addItem("BSD");
+        cbTo.addItem("BTN");
+        cbTo.addItem("BWP"); 
+        cbTo.addItem("BYN");
+        cbTo.addItem("BZD");
+        cbTo.addItem("CAD");
+        cbTo.addItem("CDF");
+        cbTo.addItem("CHF");
+        cbTo.addItem("CLP");
+        cbTo.addItem("CNY");
+        cbTo.addItem("COP");
+        cbTo.addItem("CRC");
+        cbTo.addItem("CUP");
+        cbTo.addItem("CBE");
+        cbTo.addItem("CZK");
+        cbTo.addItem("DJF");
+        cbTo.addItem("DKK");
+        cbTo.addItem("DOP");
+        cbTo.addItem("DZD");
+        cbTo.addItem("EEK");
+        cbTo.addItem("EJP");
+        cbTo.addItem("ERN");
+        cbTo.addItem("ETB");
+        cbTo.addItem("EUR");
+        cbTo.addItem("FJD");
+        cbTo.addItem("FKP");
+        cbTo.addItem("GBP");
+        cbTo.addItem("GEL");
+        cbTo.addItem("GGP");
+        cbTo.addItem("GHS");
+        cbTo.addItem("GIP");
+        cbTo.addItem("GMD");
+        cbTo.addItem("GNF");
+        cbTo.addItem("GTQ");
+        cbTo.addItem("GYD");
+        cbTo.addItem("HKD");
+        cbTo.addItem("HNL");
+        cbTo.addItem("HTG");
+        cbTo.addItem("HUF"); 
+        cbTo.addItem("IDR");
+        cbTo.addItem("ILS");
+        cbTo.addItem("IMP");
+        cbTo.addItem("INR");
+        cbTo.addItem("IQD");
+        cbTo.addItem("IRR");
+        cbTo.addItem("ISK");
+        cbTo.addItem("JEP");
+        cbTo.addItem("JMD");
+        cbTo.addItem("JOD");
+        cbTo.addItem("JPY");
+        cbTo.addItem("KES");
+        cbTo.addItem("KJS");
+        cbTo.addItem("KHR");
+        cbTo.addItem("KMF");
+        cbTo.addItem("KPW");
+        cbTo.addItem("KRW");
+        cbTo.addItem("KWD"); 
+        cbTo.addItem("KYD");
+        cbTo.addItem("KZT");
+        cbTo.addItem("LAK");
+        cbTo.addItem("LBP");
+        cbTo.addItem("LKR");
+        cbTo.addItem("LRD");
+        cbTo.addItem("LSL");
+        cbTo.addItem("LTL");
+        cbTo.addItem("LVL");
+        cbTo.addItem("LYD");
+        cbTo.addItem("MAD");
+        cbTo.addItem("MDL");
+        cbTo.addItem("MGA");
+        cbTo.addItem("MKD");
         
+        
+        
+        // CODE HERE
         // Set currency pairs
         pairSuggestions.put("AED", Arrays.asList("AED - AFN", "AED - ALL"));
         pairSuggestions.put("AFN", Arrays.asList("AFN - AED", "AFN - ALL"));
@@ -51,7 +244,23 @@ public class ConverterPage extends javax.swing.JFrame {
         
         appStarted = true;
         
+        // CODE HERE
         // Set currency rates vlaue
+        rates.put("AED",3.67);
+        rates.put("AFN",70.99);
+        rates.put("ALL",86.81);
+        rates.put("AMD",387.57);
+        rates.put("AFN",70.99);
+        rates.put("ALL",86.81);
+        rates.put("AED",3.67);
+        rates.put("AFN",70.99);
+        rates.put("ALL",86.81);
+        rates.put("AED",3.67);
+        rates.put("AFN",70.99);
+        rates.put("ALL",86.81);
+        rates.put("AED",3.67);
+        rates.put("AFN",70.99);
+        rates.put("ALL",86.81);
         rates.put("AED",3.67);
         rates.put("AFN",70.99);
         rates.put("ALL",86.81);
@@ -96,6 +305,12 @@ public class ConverterPage extends javax.swing.JFrame {
         jLabel2.setForeground(new java.awt.Color(153, 153, 153));
         jLabel2.setText("Amount");
 
+        txtAmount.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        txtAmount.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtAmountActionPerformed(evt);
+            }
+        });
         txtAmount.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtAmountKeyReleased(evt);
@@ -136,7 +351,7 @@ public class ConverterPage extends javax.swing.JFrame {
 
         lblFromValue.setText("jLabel1");
 
-        lblResult.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lblResult.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         lblResult.setText("jLabel1");
 
         lblToValue.setText("jLabel1");
@@ -219,7 +434,7 @@ public class ConverterPage extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(50, 50, 50)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(41, Short.MAX_VALUE))
+                .addContainerGap(34, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -340,6 +555,10 @@ public class ConverterPage extends javax.swing.JFrame {
         lblResult.setVisible(false);
         lblToValue.setVisible(false);
     }//GEN-LAST:event_cbToActionPerformed
+
+    private void txtAmountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAmountActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtAmountActionPerformed
 
 
     public static void main(String args[]) {
