@@ -7,6 +7,13 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Arrays;
+import java.util.ArrayList;
+import javax.swing.SwingUtilities;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
+import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 /**
  *
@@ -17,6 +24,9 @@ public class ConverterPage extends javax.swing.JFrame {
     boolean showCurrencyPairs = false;
     boolean appStarted = false;
     String selectedBase = "";
+    
+     // Currency list
+    private final List<String> currencyList;
     
     // Currency pairs
     Map<String, List<String>> pairSuggestions = new HashMap<>();
@@ -30,394 +40,204 @@ public class ConverterPage extends javax.swing.JFrame {
         // Frame size
         setSize(425,610);
               
+        currencyList = Arrays.asList (
+                "AED - Emirati Dirhams",
+                "AFN - Afghan Afghani",
+                "ALL - Albanian Leke",
+                "AMD - Armenian Drams",
+                "ANG - Dutch Guilder",
+                "AOA - Angolan Kwanzas",
+                "ARS - Argentine Pesos",
+                "AUD - Australian Dollar",
+                "AZN - Azerbaijan Manats",
+                "BAM - Bosnian Convertible Marks",
+                "BBD - Bajan Dollars",
+                "BDT - Bangladeshi Taka",
+                "BGN - Bulgarian Leva",
+                "BHD - Bahraini Dinar",
+                "BIF - Burunduin Franc",
+                "BMD - Bermudian Dollar",
+                "BND - Bruneian Dollar",
+                "BOB - Bolivian Boliviano",
+                "BRL - Brazilian Real",
+                "BSD - Bahamian Dollar",
+                "BTN - Bhutanese Ngultrum",
+                "BWP - Botswana Pula",
+                "BYN - Belarusian Ruble",
+                "BZD - Belizean Dollars",
+                "CAD - Canadian Dollar",
+                "CDF - Congolese Francs",
+                "CHF - Swiss Francs",
+                "CLP - Chilean Pesos",
+                "CNY - Chinese Yuan",
+                "COP - Colombian Peso",
+                "CRC - Costa Rican Colon",
+                "CUP - Cuban Peso",
+                "CVE - Cape Verdean Escudo",
+                "CZK - Czech Koruna",
+                "DJF - Djiboutian Francs",
+                "DKK - Danish Krone",
+                "DOP - Dominican Pesos",
+                "DZD - Algerian Dinar",
+                "EEK - Estonian Kroon",
+                "EGP - Egyptian Pound",
+                "ERN  - Eritrean Nakfas",
+                "ETB - Ethiopian Birr",
+                "EUR - Euros",
+                "FJD - Fijian Dollars",
+                "FKP - Falkland Island Pounds",
+                "GBP - British Pound",
+                "GEL - Georgian Lari",
+                "GGP - Guernsey Pounds",
+                "GHS - Ghanaian Cedis",
+                "GIP - Gibraltar Pounds",
+                "GMD - Gambian Dalasi",
+                "GNF - Guinean Franc",
+                "GTQ - Guatemalan Quetzales",
+                "GYD - Guyanese Dollar",
+                "HKD - Hong Kong Dollars",
+                "HNL - Honduran Lempiras",
+                "HTG - Haitian Gourdes",
+                "HUF - Hungarian Forints",
+                "IDR - Indonesian Rupiahs",
+                "ILS - Israeli New Shekels",
+                "IMP - Isle of Man Pounds",
+                "INR - Indian Rupees",
+                "IQD - Iraqi Dinars",
+                "IRR - Iranian Rials",
+                "ISK - Icelandic Kronur",
+                "JEP - Jersey Pound",
+                "JMD - Jamaican Dollars",
+                "JOD - Jordanian Dinars",
+                "JPY - Japanese Yen",
+                "KES - Kenyan Shilling",
+                "KGS - Kyrgyzstan Soms",
+                "KHR - Cambodian Riels",
+                "KMF - Comorian Francs",
+                "KPW - North Korean Won",
+                "KRW - South Korea Won",
+                "KWD - Kuwaiti Dinars",
+                "KYD - Caymanian Dollar",
+                "KZT - Kazakhstan Tenge",
+                "LAK - Lao Kips",
+                "LBP - Lebanese Pounds",
+                "LKR - Sri Lankan Rupees",
+                "LRD - Liberian Dollar",
+                "LSL - Basotho Maloti",
+                "LTL - Lithuanian Lital",
+                "LVL - Latvia Lati",
+                "LYD - Libyan Dinar",
+                "MAD - Moroccan Dirhams",
+                "MDL - Moldovan Lei",
+                "MGA - Malagasy Ariary",
+                "MKD - Macedoninan Denars",
+                "MMK - Burmese Kyats",
+                "MNT - Mongolian Tugriks",
+                "MOP - Macau Patacas",
+                "MRU - Mauritanian Ouguiyas",
+                "MUR - Mauritian Rupees",
+                "MVR - Maldivian Rufiyaa",
+                "MWK - Malawian Kwacha",
+                "MXN - Mexican Pesos",
+                "MYR - Malaysian Ringgits",
+                "MZN - Mozambican Meticais",
+                "NAD - Namibian Dollars",
+                "NGN - Nigerian Nairas",
+                "NIO - Nicaraguan Cordobas",
+                "NOK - Norwegian Kroner",
+                "NPR - Nepalese Rupees",
+                "NZD - New Zealand Dollars",
+                "OMR - Omani Rials",
+                "PAB - Panamanian Balboa",
+                "PEN - Peruvian Soles",
+                "PGK - Papua New Guinea Kina",
+                "PHP - Philippine Peso",
+                "PKR - Pakistani Rupees",
+                "PLN - Polish Zlotych",
+                "PYG - Paraguayan Guarani",
+                "QAR - Qatari Rials",
+                "RON - Romanian Lei",
+                "RSD - Serbian Dinar",
+                "RUB - Russian Rubles",
+                "RWF - Rwandan Francs",
+                "SAR - Saudi Arabian Riyals",
+                "SBD - Solomon Islands Dollar",
+                "SCR - Seychellois Rupees",
+                "SDG - Sudanese Pounds",
+                "SEK - Swedish Kronor",
+                "SGD - Singapore Dollars",
+                "SHP - Saint Helenian Pound",
+                "SLE - Sierra Leonenean Leone",
+                "SOS - Somali Shillings",
+                "SRD - Surinamese Dollars",
+                "STN - Sao Tomean Dobras",
+                "SVC - Salvadoran Colon",
+                "SYP - Syrian Pounds",
+                "SZL - Swazi Lilangeni",
+                "THB - Thai Baht",
+                "TJS - Tajikistani Somoni",
+                "TMT - Turkmenistani Manats",
+                "TND - Tunisian Dinars",
+                "TOP - Tongan Pa'anga",
+                "TRY - Turkish Lira",
+                "TTD - Trinidadian Dollars",
+                "TVD - Tuvaluan Dollar",
+                "TWD - Taiwan New Dollars",
+                "TZS - Tanzanian Shillings",
+                "UAH - Ukrainian Hryvni",
+                "UGX - Ugandan Shillings",
+                "UYU - Uruguayan Peso",
+                "UZS - Uzbekistani Sums",
+                "VES - Venezuelan Bolívares",
+                "VND - Vietnamese Dong",
+                "VUV - Ni-Vanuatu Vatu",
+                "WST - Samoan Tala",
+                "XCG - Caribbean Guilder",
+                "YER - Yemeni Rials",
+                "ZAR - South African Rand",
+                "ZMW - Zambian Kwacha",
+                "ZWG - Zimbabwean Dollar",
+                "DKK - Danish Krone",
+                "EUR - Guadeloupe",
+                "USD - Guam",
+                "EUR - Martinique",
+                "XCD - East Caribbean Dollar",
+                "XPF - CFP Francs",
+                "NZD - Niue",
+                "AUD - Australian Dollars",
+                "USD - Northern Mariana Island",
+                "USD - Palau",
+                "NZD - New Zealand Dollar",
+                "USD - Puerto Rico",
+                "EUR - ReunionCHANGE",
+                "EUR - Saint BarthelemyCHANGE",
+                "XCD - Saint Kitts and Nevis",
+                "XCD - Saint Lucia",
+                "EUR - Saint Martin",
+                "EUR - Saint Pierre and Miquelon",
+                "XCD - East Caribbean Dollar",
+                "EUR - Cyprus",
+                "XAF - Central African Francs",
+                "XOF - CFA Francs",
+                "SSP - South Sudanese Pound",
+                "USD - United States of America"
+        );    
         
-        // CODE HERE
-        // From combobox currencies
         cbFrom.removeAllItems();
-        cbFrom.addItem("AED - Emirati Dirhams");
-        cbFrom.addItem("AFN - Afghan Afghan");
-        cbFrom.addItem("ALL - Albanian Leke");
-        cbFrom.addItem("AMD - Armenian Drams");
-        cbFrom.addItem("ANG - Dutch Guilder");
-        cbFrom.addItem("AOA - Angolan Kwanzas");
-        cbFrom.addItem("ARS - Argentine Pesos");
-        cbFrom.addItem("AUD - Australian Dollar");
-        cbFrom.addItem("AZN - Azerbaijan Manats");
-        cbFrom.addItem("BAM - Bosnian Convertible Marks");
-        cbFrom.addItem("BBD - Bajan Dollars");
-        cbFrom.addItem("BDT - Bangladeshi Taka");
-        cbFrom.addItem("BGN - Bulgarian Leva");
-        cbFrom.addItem("BHD - Bahraini Dinar");
-        cbFrom.addItem("BIF - Burunduin Franc");
-        cbFrom.addItem("BMD - Bermudian Dollar");
-        cbFrom.addItem("BND - Bruneian Dollar");
-        cbFrom.addItem("BOB - Bolivian Boliviano");
-        cbFrom.addItem("BRL - Brazilian Real");
-        cbFrom.addItem("BSD - Bahamian Dollar");
-        cbFrom.addItem("BTN - Bhutanese Ngultrum");
-        cbFrom.addItem("BWP - Botswana Pula");
-        cbFrom.addItem("BYN - Belarusian Ruble");
-        cbFrom.addItem("BZD - Belizean Dollars");
-        cbFrom.addItem("CAD - Canadian Dollar");
-        cbFrom.addItem("CDF - Congolese Francs");
-        cbFrom.addItem("CHF - Swiss Francs");
-        cbFrom.addItem("CLP - Chilean Pesos");
-        cbFrom.addItem("CNY - Chinese Yuan");
-        cbFrom.addItem("COP - Colombian Peso");
-        cbFrom.addItem("CRC - Costa Rican Colon");
-        cbFrom.addItem("CUP - Cuban Peso");
-        cbFrom.addItem("CVE - Cape Verdean Escudo");
-        cbFrom.addItem("CZK - Czech Koruna");
-        cbFrom.addItem("DJF - Djiboutian Francs");
-        cbFrom.addItem("DKK - Danish Krone");
-        cbFrom.addItem("DOP - Dominican Pesos");
-        cbFrom.addItem("DZD - Algerian Dinar");
-        cbFrom.addItem("EEK - Estonian Kroon");
-        cbFrom.addItem("EGP - Egyptian Pound");
-        cbFrom.addItem("ERN - Eritrean Nakfas");
-        cbFrom.addItem("ETB - Ethiopian Birr");
-        cbFrom.addItem("EUR - Euros");
-        cbFrom.addItem("FJD - Fijian Dollars");
-        cbFrom.addItem("FKP - Falkland Island pounds");
-        cbFrom.addItem("GBP - British Pound");
-        cbFrom.addItem("GEL - Georgian Lari");
-        cbFrom.addItem("GGP - Guernsey Pounds");
-        cbFrom.addItem("GHS - Ghanaian Cedis");
-        cbFrom.addItem("GIP - Gibraltar Pounds");
-        cbFrom.addItem("GMD - Gambian Dalasi");
-        cbFrom.addItem("GNF - Guinean Franc");
-        cbFrom.addItem("GTQ - Guatemalan Quetzales");
-        cbFrom.addItem("GYD - Guyanese Dollar");
-        cbFrom.addItem("HKD - Hong Kong Dollars");
-        cbFrom.addItem("HNL - Honduran Lempiras");
-        cbFrom.addItem("HTG - Haitian Gourdes");
-        cbFrom.addItem("HUF - Hungarian Forints");
-        cbFrom.addItem("IDR - Indonesian Rupiahs");
-        cbFrom.addItem("ILS - Israeli New Shekels");
-        cbFrom.addItem("IMP - Isle of Man Pounds");
-        cbFrom.addItem("INR - Indian Rupees");
-        cbFrom.addItem("IQD - Iraqi Dinars");
-        cbFrom.addItem("IRR - Iranian Rials");
-        cbFrom.addItem("ISK - Icelandic Kronur");
-        cbFrom.addItem("JEP - Jersey Pound");
-        cbFrom.addItem("JMD - Jamaican Dollars");
-        cbFrom.addItem("JOD - Jordanian Dinars");
-        cbFrom.addItem("JPY - Japanese Yen");
-        cbFrom.addItem("KES - Kenyan Shilling");
-        cbFrom.addItem("KGS - Kyrgyzstan Soms");
-        cbFrom.addItem("KHR - Cambodian Riels");
-        cbFrom.addItem("KMF - Comorian Francs");
-        cbFrom.addItem("KPW - North Korean Won");
-        cbFrom.addItem("KRW - South Korea Won");
-        cbFrom.addItem("KWD - Kuwaiti Dinars");
-        cbFrom.addItem("KYD - Caymanian Dollar");
-        cbFrom.addItem("KZT - Kazakhstan Tenge");
-        cbFrom.addItem("LAK - Lao Kips");
-        cbFrom.addItem("LBP - Lebanese Pounds");
-        cbFrom.addItem("LKR - Sri Lankan Rupees");
-        cbFrom.addItem("LRD - Liberian Dollar");
-        cbFrom.addItem("LSL - Basotho Maloti");
-        cbFrom.addItem("LTL - Lithuanian Lital");
-        cbFrom.addItem("LVL - Latvia Lati");
-        cbFrom.addItem("LYD - Libyan Dinar");
-        cbFrom.addItem("MAD - Moroccan Dirhams");
-        cbFrom.addItem("MDL - Moldovan Lei");
-        cbFrom.addItem("MGA - Malagasy Ariary");
-        cbFrom.addItem("MKD - Macedoninan Denars");
-        cbFrom.addItem("MMK - Burmese Kyats");
-        cbFrom.addItem("MNT - Mongolian Tugriks");
-        cbFrom.addItem("MOP - Macau Patacas");
-        cbFrom.addItem("MRU - Mauritanian Ouguiyas");
-        cbFrom.addItem("MUR - Mauritian Rupees");
-        cbFrom.addItem("MVR - Maldivian Rufiyaa");
-        cbFrom.addItem("MWK - Malawian Kwacha");
-        cbFrom.addItem("MXN - Mexican Pesos");
-        cbFrom.addItem("MYR - Malaysian Ringgits");
-        cbFrom.addItem("MZN - Mozambican Meticais");
-        cbFrom.addItem("NAD - Namibian Dollars");
-        cbFrom.addItem("NGN - Nigerian Nairas");
-        cbFrom.addItem("NIO - Nicaraguan Cordobas");
-        cbFrom.addItem("NOK - Norwegian Kroner");
-        cbFrom.addItem("NPR - Nepalese Rupees");
-        cbFrom.addItem("NZD - New Zealand Dollars");
-        cbFrom.addItem("OMR - Omani Rials");
-        cbFrom.addItem("PAB - Panamanian Balboa");
-        cbFrom.addItem("PEN - Peruvian Soles");
-        cbFrom.addItem("PGK - Papua New Guinea Kina");
-        cbFrom.addItem("PHP - Philippine Peso");
-        cbFrom.addItem("PKR - Pakistani Rupees");
-        cbFrom.addItem("PLN - Polish Zlotych");
-        cbFrom.addItem("PYG - Paraguayan Guarani");
-        cbFrom.addItem("QAR - Qatari Rials");
-        cbFrom.addItem("RON - Romanian Lei");
-        cbFrom.addItem("RSD - Serbian Dinar");
-        cbFrom.addItem("RUB - Russian Rubles");
-        cbFrom.addItem("RWF - Rwandan Francs");
-        cbFrom.addItem("SAR - Saudi Arabian Riyals");
-        cbFrom.addItem("SBD - Solomon Islands Dollar");
-        cbFrom.addItem("SCR - Seychellois Rupees");
-        cbFrom.addItem("SDG - Sudanese Pounds");
-        cbFrom.addItem("SEK - Swedish Kronor");
-        cbFrom.addItem("SGD - Singapore Dollars");
-        cbFrom.addItem("SHP - Saint Helenian Pound");
-        cbFrom.addItem("SLE - Sierra Leonenean Leone");
-        cbFrom.addItem("SOS - Somali Shillings");
-        cbFrom.addItem("SRD - Surinamese Dollars");
-        cbFrom.addItem("STN - Sao Tomean Dobras");
-        cbFrom.addItem("SVC - Salvadoran Colon");
-        cbFrom.addItem("SYP - Syrian Pounds");
-        cbFrom.addItem("SZL - Swazi Lilangeni");
-        cbFrom.addItem("THB - Thai Baht");
-        cbFrom.addItem("TJS - Tajikistani Somoni");
-        cbFrom.addItem("TMT - Turkmenistani Manats");
-        cbFrom.addItem("TND - Tunisian Dinars");
-        cbFrom.addItem("TOP - Tongan Pa'anga");
-        cbFrom.addItem("TRY - Turkish Lira");
-        cbFrom.addItem("TTD - Trinidadian Dollars");
-        cbFrom.addItem("TVD - Tuvaluan Dollar");
-        cbFrom.addItem("TWD - Taiwan New Dollars");
-        cbFrom.addItem("TZS - Tanzanian Shillings");
-        cbFrom.addItem("UAH - Ukrainian Hryvni");
-        cbFrom.addItem("UGX - Ugandan Shillings");
-        cbFrom.addItem("UYU - Uruguayan Peso");
-        cbFrom.addItem("UZS - Uzbekistani Sums");
-        cbFrom.addItem("VES - Venezuelan Bolívares");
-        cbFrom.addItem("VND - Vietnamese Dong");
-        cbFrom.addItem("VUV - Ni-Vanuatu Vatu");
-        cbFrom.addItem("WST - Samoan Tala");
-        cbFrom.addItem("XCG - Caribbean Guilder");
-        cbFrom.addItem("YER - Yemeni Rials");
-        cbFrom.addItem("ZAR - South African Rand");
-        cbFrom.addItem("ZMW - Zambian Kwacha");
-        cbFrom.addItem("ZWG - Zimbabwean Dollar");
-        cbFrom.addItem("DKK - Danish Krone");
-        cbFrom.addItem("EUR - Euros");
-        cbFrom.addItem("USD - US dollar");
-        cbFrom.addItem("EUR - Euros");
-        cbFrom.addItem("XCD - East Caribbean Dollar");
-        cbFrom.addItem("XPF - CFP Francs");
-        cbFrom.addItem("NZD - New Zealand Dollar");
-        cbFrom.addItem("AUD - Australian Dollars");
-        cbFrom.addItem("USD - US Dollar");
-        cbFrom.addItem("USD - US Dollar");
-        cbFrom.addItem("NZD - New zealand Dollar");
-        cbFrom.addItem("USD - US Dollar");
-        cbFrom.addItem("EUR - Euros");
-        cbFrom.addItem("EUR - Euros");
-        cbFrom.addItem("XCD - East Caribbean Dollar");
-        cbFrom.addItem("XCD - East Caribbean Dollar");
-        cbFrom.addItem("EUR - Euros");
-        cbFrom.addItem("EUR - Euros");
-        cbFrom.addItem("XCD - East Caribbean Dollar");
-        cbFrom.addItem("EUR - Euros");
-        cbFrom.addItem("XAF - Central African Francs");
-        cbFrom.addItem("XOF - CFA Francs");
-        cbFrom.addItem("SSP - South Sudanese Pound");
-        cbFrom.addItem("USD - US Dollars");
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        // CODE HERE
-        // To combobox currencies
         cbTo.removeAllItems();
-        cbFrom.addItem("AED - Emirati Dirhams");
-        cbFrom.addItem("AFN - Afghan Afghan");
-        cbFrom.addItem("ALL - Albanian Leke");
-        cbFrom.addItem("AMD - Armenian Drams");
-        cbFrom.addItem("ANG - Dutch Guilder");
-        cbFrom.addItem("AOA - Angolan Kwanzas");
-        cbFrom.addItem("ARS - Argentine Pesos");
-        cbFrom.addItem("AUD - Australian Dollar");
-        cbFrom.addItem("AZN - Azerbaijan Manats");
-        cbFrom.addItem("BAM - Bosnian Convertible Marks");
-        cbFrom.addItem("BBD - Bajan Dollars");
-        cbFrom.addItem("BDT - Bangladeshi Taka");
-        cbFrom.addItem("BGN - Bulgarian Leva");
-        cbFrom.addItem("BHD - Bahraini Dinar");
-        cbFrom.addItem("BIF - Burunduin Franc");
-        cbFrom.addItem("BMD - Bermudian Dollar");
-        cbFrom.addItem("BND - Bruneian Dollar");
-        cbFrom.addItem("BOB - Bolivian Boliviano");
-        cbFrom.addItem("BRL - Brazilian Real");
-        cbFrom.addItem("BSD - Bahamian Dollar");
-        cbFrom.addItem("BTN - Bhutanese Ngultrum");
-        cbFrom.addItem("BWP - Botswana Pula");
-        cbFrom.addItem("BYN - Belarusian Ruble");
-        cbFrom.addItem("BZD - Belizean Dollars");
-        cbFrom.addItem("CAD - Canadian Dollar");
-        cbFrom.addItem("CDF - Congolese Francs");
-        cbFrom.addItem("CHF - Swiss Francs");
-        cbFrom.addItem("CLP - Chilean Pesos");
-        cbFrom.addItem("CNY - Chinese Yuan");
-        cbFrom.addItem("COP - Colombian Peso");
-        cbFrom.addItem("CRC - Costa Rican Colon");
-        cbFrom.addItem("CUP - Cuban Peso");
-        cbFrom.addItem("CVE - Cape Verdean Escudo");
-        cbFrom.addItem("CZK - Czech Koruna");
-        cbFrom.addItem("DJF - Djiboutian Francs");
-        cbFrom.addItem("DKK - Danish Krone");
-        cbFrom.addItem("DOP - Dominican Pesos");
-        cbFrom.addItem("DZD - Algerian Dinar");
-        cbFrom.addItem("EEK - Estonian Kroon");
-        cbFrom.addItem("EGP - Egyptian Pound");
-        cbFrom.addItem("ERN - Eritrean Nakfas");
-        cbFrom.addItem("ETB - Ethiopian Birr");
-        cbFrom.addItem("EUR - Euros");
-        cbFrom.addItem("FJD - Fijian Dollars");
-        cbFrom.addItem("FKP - Falkland Island pounds");
-        cbFrom.addItem("GBP - British Pound");
-        cbFrom.addItem("GEL - Georgian Lari");
-        cbFrom.addItem("GGP - Guernsey Pounds");
-        cbFrom.addItem("GHS - Ghanaian Cedis");
-        cbFrom.addItem("GIP - Gibraltar Pounds");
-        cbFrom.addItem("GMD - Gambian Dalasi");
-        cbFrom.addItem("GNF - Guinean Franc");
-        cbFrom.addItem("GTQ - Guatemalan Quetzales");
-        cbFrom.addItem("GYD - Guyanese Dollar");
-        cbFrom.addItem("HKD - Hong Kong Dollars");
-        cbFrom.addItem("HNL - Honduran Lempiras");
-        cbFrom.addItem("HTG - Haitian Gourdes");
-        cbFrom.addItem("HUF - Hungarian Forints");
-        cbFrom.addItem("IDR - Indonesian Rupiahs");
-        cbFrom.addItem("ILS - Israeli New Shekels");
-        cbFrom.addItem("IMP - Isle of Man Pounds");
-        cbFrom.addItem("INR - Indian Rupees");
-        cbFrom.addItem("IQD - Iraqi Dinars");
-        cbFrom.addItem("IRR - Iranian Rials");
-        cbFrom.addItem("ISK - Icelandic Kronur");
-        cbFrom.addItem("JEP - Jersey Pound");
-        cbFrom.addItem("JMD - Jamaican Dollars");
-        cbFrom.addItem("JOD - Jordanian Dinars");
-        cbFrom.addItem("JPY - Japanese Yen");
-        cbFrom.addItem("KES - Kenyan Shilling");
-        cbFrom.addItem("KGS - Kyrgyzstan Soms");
-        cbFrom.addItem("KHR - Cambodian Riels");
-        cbFrom.addItem("KMF - Comorian Francs");
-        cbFrom.addItem("KPW - North Korean Won");
-        cbFrom.addItem("KRW - South Korea Won");
-        cbFrom.addItem("KWD - Kuwaiti Dinars");
-        cbFrom.addItem("KYD - Caymanian Dollar");
-        cbFrom.addItem("KZT - Kazakhstan Tenge");
-        cbFrom.addItem("LAK - Lao Kips");
-        cbFrom.addItem("LBP - Lebanese Pounds");
-        cbFrom.addItem("LKR - Sri Lankan Rupees");
-        cbFrom.addItem("LRD - Liberian Dollar");
-        cbFrom.addItem("LSL - Basotho Maloti");
-        cbFrom.addItem("LTL - Lithuanian Lital");
-        cbFrom.addItem("LVL - Latvia Lati");
-        cbFrom.addItem("LYD - Libyan Dinar");
-        cbFrom.addItem("MAD - Moroccan Dirhams");
-        cbFrom.addItem("MDL - Moldovan Lei");
-        cbFrom.addItem("MGA - Malagasy Ariary");
-        cbFrom.addItem("MKD - Macedoninan Denars");
-        cbFrom.addItem("MMK - Burmese Kyats");
-        cbFrom.addItem("MNT - Mongolian Tugriks");
-        cbFrom.addItem("MOP - Macau Patacas");
-        cbFrom.addItem("MRU - Mauritanian Ouguiyas");
-        cbFrom.addItem("MUR - Mauritian Rupees");
-        cbFrom.addItem("MVR - Maldivian Rufiyaa");
-        cbFrom.addItem("MWK - Malawian Kwacha");
-        cbFrom.addItem("MXN - Mexican Pesos");
-        cbFrom.addItem("MYR - Malaysian Ringgits");
-        cbFrom.addItem("MZN - Mozambican Meticais");
-        cbFrom.addItem("NAD - Namibian Dollars");
-        cbFrom.addItem("NGN - Nigerian Nairas");
-        cbFrom.addItem("NIO - Nicaraguan Cordobas");
-        cbFrom.addItem("NOK - Norwegian Kroner");
-        cbFrom.addItem("NPR - Nepalese Rupees");
-        cbFrom.addItem("NZD - New Zealand Dollars");
-        cbFrom.addItem("OMR - Omani Rials");
-        cbFrom.addItem("PAB - Panamanian Balboa");
-        cbFrom.addItem("PEN - Peruvian Soles");
-        cbFrom.addItem("PGK - Papua New Guinea Kina");
-        cbFrom.addItem("PHP - Philippine Peso");
-        cbFrom.addItem("PKR - Pakistani Rupees");
-        cbFrom.addItem("PLN - Polish Zlotych");
-        cbFrom.addItem("PYG - Paraguayan Guarani");
-        cbFrom.addItem("QAR - Qatari Rials");
-        cbFrom.addItem("RON - Romanian Lei");
-        cbFrom.addItem("RSD - Serbian Dinar");
-        cbFrom.addItem("RUB - Russian Rubles");
-        cbFrom.addItem("RWF - Rwandan Francs");
-        cbFrom.addItem("SAR - Saudi Arabian Riyals");
-        cbFrom.addItem("SBD - Solomon Islands Dollar");
-        cbFrom.addItem("SCR - Seychellois Rupees");
-        cbFrom.addItem("SDG - Sudanese Pounds");
-        cbFrom.addItem("SEK - Swedish Kronor");
-        cbFrom.addItem("SGD - Singapore Dollars");
-        cbFrom.addItem("SHP - Saint Helenian Pound");
-        cbFrom.addItem("SLE - Sierra Leonenean Leone");
-        cbFrom.addItem("SOS - Somali Shillings");
-        cbFrom.addItem("SRD - Surinamese Dollars");
-        cbFrom.addItem("STN - Sao Tomean Dobras");
-        cbFrom.addItem("SVC - Salvadoran Colon");
-        cbFrom.addItem("SYP - Syrian Pounds");
-        cbFrom.addItem("SZL - Swazi Lilangeni");
-        cbFrom.addItem("THB - Thai Baht");
-        cbFrom.addItem("TJS - Tajikistani Somoni");
-        cbFrom.addItem("TMT - Turkmenistani Manats");
-        cbFrom.addItem("TND - Tunisian Dinars");
-        cbFrom.addItem("TOP - Tongan Pa'anga");
-        cbFrom.addItem("TRY - Turkish Lira");
-        cbFrom.addItem("TTD - Trinidadian Dollars");
-        cbFrom.addItem("TVD - Tuvaluan Dollar");
-        cbFrom.addItem("TWD - Taiwan New Dollars");
-        cbFrom.addItem("TZS - Tanzanian Shillings");
-        cbFrom.addItem("UAH - Ukrainian Hryvni");
-        cbFrom.addItem("UGX - Ugandan Shillings");
-        cbFrom.addItem("UYU - Uruguayan Peso");
-        cbFrom.addItem("UZS - Uzbekistani Sums");
-        cbFrom.addItem("VES - Venezuelan Bolívares");
-        cbFrom.addItem("VND - Vietnamese Dong");
-        cbFrom.addItem("VUV - Ni-Vanuatu Vatu");
-        cbFrom.addItem("WST - Samoan Tala");
-        cbFrom.addItem("XCG - Caribbean Guilder");
-        cbFrom.addItem("YER - Yemeni Rials");
-        cbFrom.addItem("ZAR - South African Rand");
-        cbFrom.addItem("ZMW - Zambian Kwacha");
-        cbFrom.addItem("ZWG - Zimbabwean Dollar");
-        cbFrom.addItem("DKK - Danish Krone");
-        cbFrom.addItem("EUR - Euros");
-        cbFrom.addItem("USD - US dollar");
-        cbFrom.addItem("EUR - Euros");
-        cbFrom.addItem("XCD - East Caribbean Dollar");
-        cbFrom.addItem("XPF - CFP Francs");
-        cbFrom.addItem("NZD - New Zealand Dollar");
-        cbFrom.addItem("AUD - Australian Dollars");
-        cbFrom.addItem("USD - US Dollar");
-        cbFrom.addItem("USD - US Dollar");
-        cbFrom.addItem("NZD - New zealand Dollar");
-        cbFrom.addItem("USD - US Dollar");
-        cbFrom.addItem("EUR - Euros");
-        cbFrom.addItem("EUR - Euros");
-        cbFrom.addItem("XCD - East Caribbean Dollar");
-        cbFrom.addItem("XCD - East Caribbean Dollar");
-        cbFrom.addItem("EUR - Euros");
-        cbFrom.addItem("EUR - Euros");
-        cbFrom.addItem("XCD - East Caribbean Dollar");
-        cbFrom.addItem("EUR - Euros");
-        cbFrom.addItem("XAF - Central African Francs");
-        cbFrom.addItem("XOF - CFA Francs");
-        cbFrom.addItem("SSP - South Sudanese Pound");
-        cbFrom.addItem("USD - US Dollars");
+         
+        for (String currency: currencyList) {
+            
+            cbFrom.addItem(currency);
+            cbTo.addItem(currency);
+        }
         
+        // Set combo boxes editable
+        cbFrom.setEditable(true);
+        cbTo.setEditable(true);
         
-        
-        
+       //searchBar(cbFrom, currencyList);
+       //searchBar(cbTo, currencyList);
         
         // CODE HERE
         // Set currency pairs
