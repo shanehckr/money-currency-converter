@@ -241,11 +241,11 @@ public class ConverterPage extends javax.swing.JFrame {
         
         // CODE HERE
         // Set currency pairs
-        pairSuggestions.put("AED", Arrays.asList("AED - AFN", "AED - ALL"));
-        pairSuggestions.put("AFN", Arrays.asList("AFN - AED", "AFN - ALL"));
+        pairSuggestions.put("AED - Emirati Dirhams", Arrays.asList("AED - AFN", "AED - ALL"));
+        pairSuggestions.put("AFN - Afghan Afghani", Arrays.asList("AFN - AED", "AFN - ALL"));
         
-        cbFrom.setSelectedItem("AED");
-        cbTo.setSelectedItem("AFN");
+        cbFrom.setSelectedItem("AED - Emirati Dirhams");
+        cbTo.setSelectedItem("AFN - Afghan Afghani");
         
         appStarted = true;
         
@@ -620,40 +620,93 @@ public class ConverterPage extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+    private void searchBar(JComboBox<String> comboBox, List<String> fullItemList) {
+        JTextField editor = (JTextField) comboBox.getEditor().getEditorComponent();
 
+        editor.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                filterItems();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                filterItems();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                filterItems();
+            }
+
+            private void filterItems() {
+                SwingUtilities.invokeLater(() -> {
+                    String input = editor.getText();
+                    if (input == null) input = "";
+
+                    List<String> filteredItems = new ArrayList<>();
+                    String inputLower = input.toLowerCase();
+
+                    for (String item : fullItemList) {
+                        if (item.toLowerCase().contains(inputLower)) {
+                            filteredItems.add(item);
+                        }
+                    }
+
+                    // Update combo box with filtered items
+                    DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
+                    for (String item : filteredItems) {
+                        model.addElement(item);
+                    }
+
+                    comboBox.setModel(model);
+                    comboBox.setSelectedItem(input);
+
+                    editor.setText(input);
+                    editor.setCaretPosition(input.length());
+
+                    comboBox.showPopup();
+                });
+            }
+        });
+    }
+   
     private void btnConvertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConvertActionPerformed
-       
-        lblFromValue.setVisible(true);
-        lblResult.setVisible(true);
-        lblToValue.setVisible(true);
-        btnConvert.setVisible(false);
-        
-        try {
+     
+           try {
+            // User input
             double amount = Double.parseDouble(txtAmount.getText());
+            
+            // Extract curreny from combo box
+            String fromFull = cbFrom.getSelectedItem().toString();
+            String toFull = cbTo.getSelectedItem().toString();
 
-            String from = (String) cbFrom.getSelectedItem();
-            String to = (String) cbTo.getSelectedItem();
-
-            double rateFrom = rates.get(from);
-            double rateTo = rates.get(to);
+            String fromCode = fromFull.split(" ")[0];
+            String toCode = toFull.split(" ")[0];
+            
+            double rateFrom = rates.get(fromCode);
+            double rateTo = rates.get(toCode);
 
             // Formula
             double result = amount / rateFrom * rateTo;
-
-            // Show result
-            lblResult.setText(String.format("%.2f %s", result, to));
+            double reverseResult = amount / rateTo * rateFrom;
             
+            lblFromValue.setText(String.format("1.00 %s =", fromCode));
+            // Show result
+            lblResult.setText(String.format("%.8f %s", result, toCode));
             // Show current currency rates
-            lblFromValue.setText(String.format("1.00 %s = %.2f", from, rateFrom));
-            lblToValue.setText(String.format("1.00 %s = %.2f", to, rateTo / rateFrom));
+            lblToValue.setText(String.format("1 %s = %.5f %s", toCode, reverseResult, fromCode));
+            
+            lblFromValue.setVisible(true);
+            lblResult.setVisible(true);
+            lblToValue.setVisible(true);
+            btnConvert.setVisible(false);
 
         } catch (NumberFormatException e) {
             lblResult.setText("Please enter a valid number.");
         } catch (Exception ex) {
             lblResult.setText("An error occurred. Check your inputs.");
         }
-
-        
     }//GEN-LAST:event_btnConvertActionPerformed
 
     private void cbFromActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbFromActionPerformed
@@ -661,233 +714,65 @@ public class ConverterPage extends javax.swing.JFrame {
         if (!appStarted) {
             return;
         }
-        
-        String selected = (String) cbFrom.getSelectedItem();
-        
-        if (selected == null) {
-            return;
-        }
-        
-        if (!showCurrencyPairs && pairSuggestions.containsKey(selected)) {
-            selectedBase = selected;
-            
-            // Show pair suggestions for selected base
+      
+        String selectedFull = (String) cbFrom.getSelectedItem();
+
+        if (selectedFull == null) return;
+
+        if (!showCurrencyPairs && pairSuggestions.containsKey(selectedFull)) {
+            selectedBase = selectedFull;
+
             cbFrom.removeAllItems();
             cbFrom.insertItemAt("Change Base Currency", 0);
-            cbFrom.addItem(selectedBase);
-            
-            for (String pair : pairSuggestions.get(selectedBase)) {
+
+            // Add selected base currency first
+            cbFrom.addItem(selectedFull);
+
+            // Add currency pairs directly (already formatted)
+            List<String> pairList = pairSuggestions.get(selectedFull);
+            for (String pair : pairList) {
                 cbFrom.addItem(pair);
             }
-            
-            cbFrom.setSelectedItem(selectedBase);
-            showCurrencyPairs = true;            
+
+            cbFrom.setSelectedIndex(1);
+            showCurrencyPairs = true;
+
         } else if (showCurrencyPairs) {
-            if (selected.equals("Change Base Currency")) {
-                // Restore original base currency list
+            if (selectedFull.equals("Change Base Currency")) {
+                // Restore base currency options
                 cbFrom.removeAllItems();
-                cbFrom.addItem("AED - Emirati Dirhams");
-                cbFrom.addItem("AFN - Afghan Afghan");
-                cbFrom.addItem("ALL - Albanian Leke");
-                cbFrom.addItem("AMD - Armenian Drams");
-                cbFrom.addItem("ANG - Dutch Guilder");
-                cbFrom.addItem("AOA - Angolan Kwanzas");
-                cbFrom.addItem("ARS - Argentine Pesos");
-                cbFrom.addItem("AUD - Australian Dollar");
-                cbFrom.addItem("AZN - Azerbaijan Manats");
-                cbFrom.addItem("BAM - Bosnian Convertible Marks");
-                cbFrom.addItem("BBD - Bajan Dollars");
-                cbFrom.addItem("BDT - Bangladeshi Taka");
-                cbFrom.addItem("BGN - Bulgarian Leva");
-                cbFrom.addItem("BHD - Bahraini Dinar");
-                cbFrom.addItem("BIF - Burunduin Franc");
-                cbFrom.addItem("BMD - Bermudian Dollar");
-                cbFrom.addItem("BND - Bruneian Dollar");
-                cbFrom.addItem("BOB - Bolivian Boliviano");
-                cbFrom.addItem("BRL - Brazilian Real");
-                cbFrom.addItem("BSD - Bahamian Dollar");
-                cbFrom.addItem("BTN - Bhutanese Ngultrum");
-                cbFrom.addItem("BWP - Botswana Pula");
-                cbFrom.addItem("BYN - Belarusian Ruble");
-                cbFrom.addItem("BZD - Belizean Dollars");
-                cbFrom.addItem("CAD - Canadian Dollar");
-                cbFrom.addItem("CDF - Congolese Francs");
-                cbFrom.addItem("CHF - Swiss Francs");
-                cbFrom.addItem("CLP - Chilean Pesos");
-                cbFrom.addItem("CNY - Chinese Yuan");
-                cbFrom.addItem("COP - Colombian Peso");
-                cbFrom.addItem("CRC - Costa Rican Colon");
-                cbFrom.addItem("CUP - Cuban Peso");
-                cbFrom.addItem("CVE - Cape Verdean Escudo");
-                cbFrom.addItem("CZK - Czech Koruna");
-                cbFrom.addItem("DJF - Djiboutian Francs");
-                cbFrom.addItem("DKK - Danish Krone");
-                cbFrom.addItem("DOP - Dominican Pesos");
-                cbFrom.addItem("DZD - Algerian Dinar");
-                cbFrom.addItem("EEK - Estonian Kroon");
-                cbFrom.addItem("EGP - Egyptian Pound");
-                cbFrom.addItem("ERN - Eritrean Nakfas");
-                cbFrom.addItem("ETB - Ethiopian Birr");
-                cbFrom.addItem("EUR - Euros");
-                cbFrom.addItem("FJD - Fijian Dollars");
-                cbFrom.addItem("FKP - Falkland Island pounds");
-                cbFrom.addItem("GBP - British Pound");
-                cbFrom.addItem("GEL - Georgian Lari");
-                cbFrom.addItem("GGP - Guernsey Pounds");
-                cbFrom.addItem("GHS - Ghanaian Cedis");
-                cbFrom.addItem("GIP - Gibraltar Pounds");
-                cbFrom.addItem("GMD - Gambian Dalasi");
-                cbFrom.addItem("GNF - Guinean Franc");
-                cbFrom.addItem("GTQ - Guatemalan Quetzales");
-                cbFrom.addItem("GYD - Guyanese Dollar");
-                cbFrom.addItem("HKD - Hong Kong Dollars");
-                cbFrom.addItem("HNL - Honduran Lempiras");
-                cbFrom.addItem("HTG - Haitian Gourdes");
-                cbFrom.addItem("HUF - Hungarian Forints");
-                cbFrom.addItem("IDR - Indonesian Rupiahs");
-                cbFrom.addItem("ILS - Israeli New Shekels");
-                cbFrom.addItem("IMP - Isle of Man Pounds");
-                cbFrom.addItem("INR - Indian Rupees");
-                cbFrom.addItem("IQD - Iraqi Dinars");
-                cbFrom.addItem("IRR - Iranian Rials");
-                cbFrom.addItem("ISK - Icelandic Kronur");
-                cbFrom.addItem("JEP - Jersey Pound");
-                cbFrom.addItem("JMD - Jamaican Dollars");
-                cbFrom.addItem("JOD - Jordanian Dinars");
-                cbFrom.addItem("JPY - Japanese Yen");
-                cbFrom.addItem("KES - Kenyan Shilling");
-                cbFrom.addItem("KGS - Kyrgyzstan Soms");
-                cbFrom.addItem("KHR - Cambodian Riels");
-                cbFrom.addItem("KMF - Comorian Francs");
-                cbFrom.addItem("KPW - North Korean Won");
-                cbFrom.addItem("KRW - South Korea Won");
-                cbFrom.addItem("KWD - Kuwaiti Dinars");
-                cbFrom.addItem("KYD - Caymanian Dollar");
-                cbFrom.addItem("KZT - Kazakhstan Tenge");
-                cbFrom.addItem("LAK - Lao Kips");
-                cbFrom.addItem("LBP - Lebanese Pounds");
-                cbFrom.addItem("LKR - Sri Lankan Rupees");
-                cbFrom.addItem("LRD - Liberian Dollar");
-                cbFrom.addItem("LSL - Basotho Maloti");
-                cbFrom.addItem("LTL - Lithuanian Lital");
-                cbFrom.addItem("LVL - Latvia Lati");
-                cbFrom.addItem("LYD - Libyan Dinar");
-                cbFrom.addItem("MAD - Moroccan Dirhams");
-                cbFrom.addItem("MDL - Moldovan Lei");
-                cbFrom.addItem("MGA - Malagasy Ariary");
-                cbFrom.addItem("MKD - Macedoninan Denars");
-                cbFrom.addItem("MMK - Burmese Kyats");
-                cbFrom.addItem("MNT - Mongolian Tugriks");
-                cbFrom.addItem("MOP - Macau Patacas");
-                cbFrom.addItem("MRU - Mauritanian Ouguiyas");
-                cbFrom.addItem("MUR - Mauritian Rupees");
-                cbFrom.addItem("MVR - Maldivian Rufiyaa");
-                cbFrom.addItem("MWK - Malawian Kwacha");
-                cbFrom.addItem("MXN - Mexican Pesos");
-                cbFrom.addItem("MYR - Malaysian Ringgits");
-                cbFrom.addItem("MZN - Mozambican Meticais");
-                cbFrom.addItem("NAD - Namibian Dollars");
-                cbFrom.addItem("NGN - Nigerian Nairas");
-                cbFrom.addItem("NIO - Nicaraguan Cordobas");
-                cbFrom.addItem("NOK - Norwegian Kroner");
-                cbFrom.addItem("NPR - Nepalese Rupees");
-                cbFrom.addItem("NZD - New Zealand Dollars");
-                cbFrom.addItem("OMR - Omani Rials");
-                cbFrom.addItem("PAB - Panamanian Balboa");
-                cbFrom.addItem("PEN - Peruvian Soles");
-                cbFrom.addItem("PGK - Papua New Guinea Kina");
-                cbFrom.addItem("PHP - Philippine Peso");
-                cbFrom.addItem("PKR - Pakistani Rupees");
-                cbFrom.addItem("PLN - Polish Zlotych");
-                cbFrom.addItem("PYG - Paraguayan Guarani");
-                cbFrom.addItem("QAR - Qatari Rials");
-                cbFrom.addItem("RON - Romanian Lei");
-                cbFrom.addItem("RSD - Serbian Dinar");
-                cbFrom.addItem("RUB - Russian Rubles");
-                cbFrom.addItem("RWF - Rwandan Francs");
-                cbFrom.addItem("SAR - Saudi Arabian Riyals");
-                cbFrom.addItem("SBD - Solomon Islands Dollar");
-                cbFrom.addItem("SCR - Seychellois Rupees");
-                cbFrom.addItem("SDG - Sudanese Pounds");
-                cbFrom.addItem("SEK - Swedish Kronor");
-                cbFrom.addItem("SGD - Singapore Dollars");
-                cbFrom.addItem("SHP - Saint Helenian Pound");
-                cbFrom.addItem("SLE - Sierra Leonenean Leone");
-                cbFrom.addItem("SOS - Somali Shillings");
-                cbFrom.addItem("SRD - Surinamese Dollars");
-                cbFrom.addItem("STN - Sao Tomean Dobras");
-                cbFrom.addItem("SVC - Salvadoran Colon");
-                cbFrom.addItem("SYP - Syrian Pounds");
-                cbFrom.addItem("SZL - Swazi Lilangeni");
-                cbFrom.addItem("THB - Thai Baht");
-                cbFrom.addItem("TJS - Tajikistani Somoni");
-                cbFrom.addItem("TMT - Turkmenistani Manats");
-                cbFrom.addItem("TND - Tunisian Dinars");
-                cbFrom.addItem("TOP - Tongan Pa'anga");
-                cbFrom.addItem("TRY - Turkish Lira");
-                cbFrom.addItem("TTD - Trinidadian Dollars");
-                cbFrom.addItem("TVD - Tuvaluan Dollar");
-                cbFrom.addItem("TWD - Taiwan New Dollars");
-                cbFrom.addItem("TZS - Tanzanian Shillings");
-                cbFrom.addItem("UAH - Ukrainian Hryvni");
-                cbFrom.addItem("UGX - Ugandan Shillings");
-                cbFrom.addItem("UYU - Uruguayan Peso");
-                cbFrom.addItem("UZS - Uzbekistani Sums");
-                cbFrom.addItem("VES - Venezuelan Bolívares");
-                cbFrom.addItem("VND - Vietnamese Dong");
-                cbFrom.addItem("VUV - Ni-Vanuatu Vatu");
-                cbFrom.addItem("WST - Samoan Tala");
-                cbFrom.addItem("XCG - Caribbean Guilder");
-                cbFrom.addItem("YER - Yemeni Rials");
-                cbFrom.addItem("ZAR - South African Rand");
-                cbFrom.addItem("ZMW - Zambian Kwacha");
-                cbFrom.addItem("ZWG - Zimbabwean Dollar");
-                cbFrom.addItem("DKK - Danish Krone");
-                cbFrom.addItem("EUR - Euros");
-                cbFrom.addItem("USD - US dollar");
-                cbFrom.addItem("EUR - Euros");
-                cbFrom.addItem("XCD - East Caribbean Dollar");
-                cbFrom.addItem("XPF - CFP Francs");
-                cbFrom.addItem("NZD - New Zealand Dollar");
-                cbFrom.addItem("AUD - Australian Dollars");
-                cbFrom.addItem("USD - US Dollar");
-                cbFrom.addItem("USD - US Dollar");
-                cbFrom.addItem("NZD - New zealand Dollar");
-                cbFrom.addItem("USD - US Dollar");
-                cbFrom.addItem("EUR - Euros");
-                cbFrom.addItem("EUR - Euros");
-                cbFrom.addItem("XCD - East Caribbean Dollar");
-                cbFrom.addItem("XCD - East Caribbean Dollar");
-                cbFrom.addItem("EUR - Euros");
-                cbFrom.addItem("EUR - Euros");
-                cbFrom.addItem("XCD - East Caribbean Dollar");
-                cbFrom.addItem("EUR - Euros");
-                cbFrom.addItem("XAF - Central African Francs");
-                cbFrom.addItem("XOF - CFA Francs");
-                cbFrom.addItem("SSP - South Sudanese Pound");
-                cbFrom.addItem("USD - US Dollars");
-                
-                
+                for (String currency : currencyList) {
+                    cbFrom.addItem(currency);
+                }
                 cbFrom.setSelectedIndex(0);
                 showCurrencyPairs = false;
-            } else if (selected.contains(" - ")) {
-                // Extract the pair
-                String [] parts = selected.split(" - ");
+
+            } else if (selectedFull.contains(" - ")) {
+                // Handle pair selection
+                String[] parts = selectedFull.split(" - ");
                 if (parts.length == 2) {
-                    String from = parts[0].trim();
-                    String to = parts[1].trim();
-                    
-                    //Set cbFrom and cbTo
-                    cbFrom.setSelectedItem(from);
-                    cbTo.setSelectedItem(to);
+                    String fromCode = parts[0].trim();
+                    String toCode = parts[1].trim();
+
+                    // Set cbFrom and cbTo to match selected currencies from currencyList
+                    for (String currency : currencyList) {
+                        if (currency.startsWith(fromCode)) {
+                            cbFrom.setSelectedItem(currency);
+                        }
+                        if (currency.startsWith(toCode)) {
+                            cbTo.setSelectedItem(currency);
+                        }
+                    }
                 }
             }
-        }       
-        
+        }
+
                 btnConvert.setVisible(true);
                 lblFromValue.setVisible(false);
                 lblResult.setVisible(false);
                 lblToValue.setVisible(false);
+       
+        
     }//GEN-LAST:event_cbFromActionPerformed
 
     private void txtAmountKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtAmountKeyReleased
