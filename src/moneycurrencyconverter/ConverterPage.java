@@ -7,8 +7,6 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Arrays;
-import java.util.ArrayList;
-import javax.swing.SwingUtilities;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
@@ -16,31 +14,31 @@ import javax.swing.Timer;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-/**
- *
- * @author kearl
- */
 public class ConverterPage extends javax.swing.JFrame {
    
-    boolean showCurrencyPairs = false;
     boolean appStarted = false;
     String selectedBase = "";
     
      // Currency list
     private final List<String> currencyList;
     
-    // Currency pairs
-    Map<String, List<String>> pairSuggestions = new HashMap<>();
-    
     // Currency conversion rates
     Map<String, Double> rates = new HashMap<>();
+    
+    /**
+     * This constructor set up the currency converter page.
+     * 
+     * It initializes the window size, loads the currency list and its rates,
+     * fills the "From" and "To" combo boxes with currencies,
+     * makes them editable with search capability,
+     * and sets default selected currencies.
+     */
     
     public ConverterPage() {
         initComponents();
         
-        // Frame size
         setSize(425,610);
-              
+            
         currencyList = Arrays.asList (
                 "AED - Emirati Dirhams",
                 "AFN - Afghan Afghani",
@@ -60,7 +58,7 @@ public class ConverterPage extends javax.swing.JFrame {
                 "BMD - Bermudian Dollar",
                 "BND - Bruneian Dollar",
                 "BOB - Bolivian Boliviano",
-                "BRL - BBRLrazilian Real",
+                "BRL - Brazilian Real",
                 "BSD - Bahamian Dollar",
                 "BTN - Bhutanese Ngultrum",
                 "BWP - Botswana Pula",
@@ -205,7 +203,7 @@ public class ConverterPage extends javax.swing.JFrame {
                 "XCD - East Caribbean Dollar",
                 "XPF - CFP Francs",
                 "NZD - Niue",
-                "AUD - Norfolk Isslands",
+                "AUD - Norfolk Islands",
                 "USD - Northern Mariana Island",
                 "USD - Palau",
                 "NZD -Pitcairn Islands",
@@ -227,28 +225,22 @@ public class ConverterPage extends javax.swing.JFrame {
         cbFrom.removeAllItems();
         cbTo.removeAllItems();
          
-        for (String currency: currencyList) {
-            
+        for (String currency: currencyList) { 
             cbFrom.addItem(currency);
             cbTo.addItem(currency);
         }
-        
-        // Set combo boxes editable
+     
         cbFrom.setEditable(true);
         cbTo.setEditable(true);
         
-       searchBar(cbFrom, currencyList);
-       searchBar(cbTo, currencyList);
+        searchBar(cbFrom, currencyList);
+        searchBar(cbTo, currencyList);
        
- 
-        
         cbFrom.setSelectedItem("ALL - Emirati Dirhams");
         cbTo.setSelectedItem("AFN - Afghan Afghani");
         
         appStarted = true;
-        
-        // CODE HERE
-        // Set currency rates vlaue
+     
         rates.put("AED",3.67);
         rates.put("AFN",70.99);
         rates.put("ALL",86.81);
@@ -430,16 +422,10 @@ public class ConverterPage extends javax.swing.JFrame {
         rates.put("SSP", 600.49);
         rates.put("USD", 1.00);
         
-        
-        
-        
-        
-        // Hide labels for result
+        // Make labels not visible if there's no conversion
         lblFromValue.setVisible(false);
         lblResult.setVisible(false);
         lblToValue.setVisible(false);
-        
-        
     }
 
     @SuppressWarnings("unchecked")
@@ -449,11 +435,11 @@ public class ConverterPage extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         lblProject = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        lblAmount = new javax.swing.JLabel();
         txtAmount = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
+        lblFrom = new javax.swing.JLabel();
         cbFrom = new javax.swing.JComboBox<>();
-        jLabel4 = new javax.swing.JLabel();
+        lblTo = new javax.swing.JLabel();
         cbTo = new javax.swing.JComboBox<>();
         btnConvert = new javax.swing.JButton();
         lblFromValue = new javax.swing.JLabel();
@@ -461,17 +447,18 @@ public class ConverterPage extends javax.swing.JFrame {
         lblToValue = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Money Currency Converter");
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(0, 0, 102));
 
-        lblProject.setFont(new java.awt.Font("Arial Black", 1, 24)); // NOI18N
+        lblProject.setFont(new java.awt.Font("Ebrima", 1, 24)); // NOI18N
         lblProject.setForeground(new java.awt.Color(0, 0, 102));
         lblProject.setText("Money Converter");
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(153, 153, 153));
-        jLabel2.setText("Amount");
+        lblAmount.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblAmount.setForeground(new java.awt.Color(153, 153, 153));
+        lblAmount.setText("Amount");
 
         txtAmount.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         txtAmount.addActionListener(new java.awt.event.ActionListener() {
@@ -485,9 +472,9 @@ public class ConverterPage extends javax.swing.JFrame {
             }
         });
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(153, 153, 153));
-        jLabel3.setText("From");
+        lblFrom.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblFrom.setForeground(new java.awt.Color(153, 153, 153));
+        lblFrom.setText("From");
 
         cbFrom.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cbFrom.addActionListener(new java.awt.event.ActionListener() {
@@ -496,9 +483,9 @@ public class ConverterPage extends javax.swing.JFrame {
             }
         });
 
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(153, 153, 153));
-        jLabel4.setText("To");
+        lblTo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblTo.setForeground(new java.awt.Color(153, 153, 153));
+        lblTo.setText("To");
 
         cbTo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cbTo.addActionListener(new java.awt.event.ActionListener() {
@@ -517,17 +504,23 @@ public class ConverterPage extends javax.swing.JFrame {
             }
         });
 
+        lblFromValue.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblFromValue.setText("jLabel1");
 
         lblResult.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         lblResult.setText("jLabel1");
 
+        lblToValue.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblToValue.setText("jLabel1");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblProject)
+                .addGap(61, 61, 61))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(30, 30, 30)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -535,8 +528,8 @@ public class ConverterPage extends javax.swing.JFrame {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(lblTo, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lblFrom, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(0, 228, Short.MAX_VALUE))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGap(6, 6, 6)
@@ -544,37 +537,33 @@ public class ConverterPage extends javax.swing.JFrame {
                                     .addComponent(txtAmount, javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(cbFrom, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(cbTo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(btnConvert, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(lblResult)
-                                            .addComponent(lblFromValue)
-                                            .addComponent(lblToValue))
-                                        .addGap(0, 0, Short.MAX_VALUE)))))
+                                    .addComponent(btnConvert, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                         .addGap(30, 30, 30))
                     .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(lblAmount)
+                        .addContainerGap(245, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(17, 17, 17)
-                                .addComponent(lblProject)))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(lblResult)
+                            .addComponent(lblToValue)
+                            .addComponent(lblFromValue))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(36, 36, 36)
+                .addGap(35, 35, 35)
                 .addComponent(lblProject)
-                .addGap(32, 32, 32)
-                .addComponent(jLabel2)
+                .addGap(33, 33, 33)
+                .addComponent(lblAmount)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(txtAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel3)
+                .addComponent(lblFrom)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(cbFrom, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel4)
+                .addComponent(lblTo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(cbTo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(9, 9, 9)
@@ -585,7 +574,7 @@ public class ConverterPage extends javax.swing.JFrame {
                 .addComponent(lblResult)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblToValue)
-                .addContainerGap(33, Short.MAX_VALUE))
+                .addContainerGap(42, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -602,7 +591,7 @@ public class ConverterPage extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(50, 50, 50)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(34, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -621,18 +610,18 @@ public class ConverterPage extends javax.swing.JFrame {
     private void searchBar(JComboBox<String> comboBox, List<String> fullItemList) {
         JTextField editor = (JTextField) comboBox.getEditor().getEditorComponent();
         
-DefaultComboBoxModel<String> originalModel = new DefaultComboBoxModel<>();
+        DefaultComboBoxModel<String> originalModel = new DefaultComboBoxModel<>();
         
-         for (String item : fullItemList) {
+        for (String item : fullItemList) {
         originalModel.addElement(item);
-    }
+        }
     
-    // Store the original selection
-    final String[] oldSelection = {null};
-    
-    // Add a delay timer to prevent filtering on every keystroke
-    final Timer filterTimer = new Timer(300, null);
-    filterTimer.setRepeats(false);
+        // Store the original selection
+        final String[] oldSelection = {null};
+
+        // Add a delay timer to prevent filtering on every keystroke
+        final Timer filterTimer = new Timer(300, null);
+        filterTimer.setRepeats(false);
     
     editor.getDocument().addDocumentListener(new DocumentListener() {
         @Override
@@ -729,45 +718,69 @@ DefaultComboBoxModel<String> originalModel = new DefaultComboBoxModel<>();
     });
 }
       
+    /**
+     * This method handles the currency conversion logic when the Convert button is clicked.
+     * Converts the entered amount from one currency to another using exchange rates.
+     * 
+     * - Gets amount and selected currencies
+     * - Retrieves exchange rates from the rates map
+     * - Calculates and displays the converted and reverse amounts
+     * - Shows error if input is invalid
+     * 
+     * @param evt The action event triggered by clicking the Convert button.
+     */
    
     private void btnConvertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConvertActionPerformed
      
            try {
-            // User input
+            // Get the amount entered by the user
             double amount = Double.parseDouble(txtAmount.getText());
             
-            // Extract curreny from combo box
+            // Get selected items from combo boxes
             String fromFull = cbFrom.getSelectedItem().toString();
             String toFull = cbTo.getSelectedItem().toString();
 
+            // Extract currency codes
             String fromCode = fromFull.split(" ")[0];
             String toCode = toFull.split(" ")[0];
             
+            // Get the exchange rates
             double rateFrom = rates.get(fromCode);
             double rateTo = rates.get(toCode);
 
-            // Formula
+            // Calculate conversion
             double result = amount / rateFrom * rateTo;
             double reverseResult = amount / rateTo * rateFrom;
             
+            // Display result
             lblFromValue.setText(String.format(" %s =", fromCode));
-            // Show result
             lblResult.setText(String.format("%.8f %s", result, toCode));
-            // Show current currency rates
-            lblToValue.setText(String.format(" %s = %.5f %s", toCode, reverseResult, fromCode));
+            lblToValue.setText(String.format(" %.2f %s = %.5f %s", amount, toCode, reverseResult, fromCode));
             
+            // Make labels visible
             lblFromValue.setVisible(true);
             lblResult.setVisible(true);
             lblToValue.setVisible(true);
             btnConvert.setVisible(false);
 
         } catch (NumberFormatException e) {
+            // Hnadle error if user input is  not a number
             lblResult.setText("Please enter a valid number.");
         } catch (Exception ex) {
+            // Handle other errors
             lblResult.setText("An error occurred. Check your inputs.");
         }
     }//GEN-LAST:event_btnConvertActionPerformed
 
+    /**
+     * This method runs when the user selects an item in the "From" currency combo box.
+     * It sets the selected currency as the base currency for conversion.
+     * 
+     * It also shows the Convert Button and hides the result labels until conversion.
+     * 
+     * @param evt The event triggered by selecting an item in the combo box.
+     */
+    
     private void cbFromActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbFromActionPerformed
         
         if (!appStarted) {
@@ -775,73 +788,37 @@ DefaultComboBoxModel<String> originalModel = new DefaultComboBoxModel<>();
         }
       
         String selectedFull = (String) cbFrom.getSelectedItem();
-
         if (selectedFull == null) return;
-
-        if (!showCurrencyPairs && pairSuggestions.containsKey(selectedFull)) {
-            selectedBase = selectedFull;
-
-            cbFrom.removeAllItems();
-            cbFrom.insertItemAt("Change Base Currency", 0);
-
-            // Add selected base currency first
-            cbFrom.addItem(selectedFull);
-
-            // Add currency pairs directly (already formatted)
-            List<String> pairList = pairSuggestions.get(selectedFull);
-            for (String pair : pairList) {
-                cbFrom.addItem(pair);
-            }
-
-            cbFrom.setSelectedIndex(1);
-            showCurrencyPairs = true;
-
-        } else if (showCurrencyPairs) {
-            if (selectedFull.equals("Change Base Currency")) {
-                // Restore base currency options
-                cbFrom.removeAllItems();
-                for (String currency : currencyList) {
-                    cbFrom.addItem(currency);
-                }
-                cbFrom.setSelectedIndex(0);
-                showCurrencyPairs = false;
-
-            } else if (selectedFull.contains(" - ")) {
-                // Handle pair selection
-                String[] parts = selectedFull.split(" - ");
-                if (parts.length == 2) {
-                    String fromCode = parts[0].trim();
-                    String toCode = parts[1].trim();
-
-                    // Set cbFrom and cbTo to match selected currencies from currencyList
-                    for (String currency : currencyList) {
-                        if (currency.startsWith(fromCode)) {
-                            cbFrom.setSelectedItem(currency);
-                        }
-                        if (currency.startsWith(toCode)) {
-                            cbTo.setSelectedItem(currency);
-                        }
-                    }
-                }
-            }
-        }
-
-                btnConvert.setVisible(true);
-                lblFromValue.setVisible(false);
-                lblResult.setVisible(false);
-                lblToValue.setVisible(false);
-       
         
+        selectedBase = selectedFull;
+
+        btnConvert.setVisible(true);
+        lblFromValue.setVisible(false);
+        lblResult.setVisible(false);
+        lblToValue.setVisible(false);
+         
     }//GEN-LAST:event_cbFromActionPerformed
 
+    /**
+     * This method runs when a key is released in the amount text field.
+     * It resets the result view by showing the Convert button and hiding ll result labels.
+     * 
+     * @param evt The key event triggered when a key is released.
+     */
+    
     private void txtAmountKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtAmountKeyReleased
         btnConvert.setVisible(true);
         lblFromValue.setVisible(false);
         lblResult.setVisible(false);
         lblToValue.setVisible(false);
-        
     }//GEN-LAST:event_txtAmountKeyReleased
 
+    /**
+     * This method runs when the user selects an item in the "To" currency combo box.
+     * It shows the Convert Button and hides the result labels to reset the view.
+     * @param evt 
+     */
+    
     private void cbToActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbToActionPerformed
         btnConvert.setVisible(true);
         lblFromValue.setVisible(false);
@@ -850,9 +827,8 @@ DefaultComboBoxModel<String> originalModel = new DefaultComboBoxModel<>();
     }//GEN-LAST:event_cbToActionPerformed
 
     private void txtAmountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAmountActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_txtAmountActionPerformed
-
 
     public static void main(String args[]) {
       
@@ -867,14 +843,14 @@ DefaultComboBoxModel<String> originalModel = new DefaultComboBoxModel<>();
     private javax.swing.JButton btnConvert;
     private javax.swing.JComboBox<String> cbFrom;
     private javax.swing.JComboBox<String> cbTo;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JLabel lblAmount;
+    private javax.swing.JLabel lblFrom;
     private javax.swing.JLabel lblFromValue;
     private javax.swing.JLabel lblProject;
     private javax.swing.JLabel lblResult;
+    private javax.swing.JLabel lblTo;
     private javax.swing.JLabel lblToValue;
     private javax.swing.JTextField txtAmount;
     // End of variables declaration//GEN-END:variables
