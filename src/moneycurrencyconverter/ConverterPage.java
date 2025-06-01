@@ -3,13 +3,16 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package moneycurrencyconverter;
+import java.awt.Component;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Arrays;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -578,7 +581,7 @@ public class ConverterPage extends javax.swing.JFrame {
                 .addContainerGap(42, Short.MAX_VALUE))
         );
 
-        btnExit.setText("Exit");
+        btnExit.setText("Cancel");
         btnExit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnExitActionPerformed(evt);
@@ -624,114 +627,192 @@ public class ConverterPage extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
     private void searchBar(JComboBox<String> comboBox, List<String> fullItemList) {
         JTextField editor = (JTextField) comboBox.getEditor().getEditorComponent();
-        
         DefaultComboBoxModel<String> originalModel = new DefaultComboBoxModel<>();
-        
-        for (String item : fullItemList) {
-        originalModel.addElement(item);
-        }
-    
-        // Store the original selection
-        final String[] oldSelection = {null};
+    for (String item : fullItemList) { 
+    originalModel.addElement(item); 
+}
 
-        // Add a delay timer to prevent filtering on every keystroke
-        final Timer filterTimer = new Timer(300, null);
-        filterTimer.setRepeats(false);
-    
-    editor.getDocument().addDocumentListener(new DocumentListener() {
-        @Override
-        public void insertUpdate(DocumentEvent e) {
-            filterTimer.restart();
-        }
+final String[] niel = {null};
+final boolean[] maica = {false}; 
+final boolean[] shane = {false}; 
+// Add a delay timer to prevent filtering on every keystroke
+final Timer filterTimer = new Timer(0, null);
+filterTimer.setRepeats(false);
 
-        @Override
-        public void removeUpdate(DocumentEvent e) {
-            filterTimer.restart();
-        }
+// Get the arrow button component
 
+   Component[] components = comboBox.getComponents();
+   JButton jay = null;
+   for (Component comp : components) {
+    if (comp instanceof JButton) {
+        jay =(JButton) comp;
+        break;
+    }
+}
+
+
+    if (jay != null) {
+    jay.addMouseListener(new java.awt.event.MouseAdapter() {
         @Override
-        public void changedUpdate(DocumentEvent e) {
-            filterTimer.restart();
-        }
-    });
-    
-    filterTimer.addActionListener(e -> {
-        String input = editor.getText();
-        if (input == null) input = "";
-        
-        // Save current position
-        final int caretPosition = editor.getCaretPosition();
-        oldSelection[0] = input;
-        
-        // Only show popup if input is not empty
-        boolean showPopup = input.length() > 0;
-        
-        if (input.isEmpty()) {
-            // If empty, restore the original full list
-            comboBox.setModel(originalModel);
-            editor.setText("");
-        } else {
-            // Create filtered model
-            DefaultComboBoxModel<String> filteredModel = new DefaultComboBoxModel<>();
-            String inputLower = input.toLowerCase();
-            
-            // More efficient filtering - limit number of results to improve performance
-            int maxResults = 20;
-            int count = 0;
-            
-            for (String item : fullItemList) {
-                if (item.toLowerCase().contains(inputLower)) {
-                    filteredModel.addElement(item);
-                    count++;
-                    if (count >= maxResults) break;
-                }
-            }
-            
-            if (filteredModel.getSize() > 0) {
-                comboBox.setModel(filteredModel);
-                if (showPopup) {
-                    comboBox.setSelectedItem(input);
-                    editor.setText(input);
-                    editor.setCaretPosition(caretPosition);
-                    
-                 
-                    if (editor.isFocusOwner() && filteredModel.getSize() > 0) {
-                        comboBox.showPopup();
-                    }
-                }
-            }
-        }
-    });
-    
-  
-    editor.addFocusListener(new java.awt.event.FocusAdapter() {
-        @Override
-        public void focusGained(java.awt.event.FocusEvent evt) {
-            if (editor.getText().length() > 0) {
-                filterTimer.restart();
-            }
-        }
-    });
-    
-   
-    editor.addFocusListener(new java.awt.event.FocusAdapter() {
-        @Override
-        public void focusLost(java.awt.event.FocusEvent evt) {
-            comboBox.hidePopup();
-        }
-    });
-    
-   
-    comboBox.addActionListener(evt -> {
-        if (comboBox.getSelectedItem() != null) {
-            String selected = comboBox.getSelectedItem().toString();
-            if (!selected.equals(oldSelection[0])) {
-                editor.setText(selected);
-                comboBox.hidePopup();
+        public void mousePressed(java.awt.event.MouseEvent evt) {
+            shane[0] = true;
+           
+            if (!maica[0]) {
+                maica[0] = true;
+                comboBox.setModel(originalModel);
+               maica[0] = false;
             }
         }
     });
 }
+
+
+    comboBox.addPopupMenuListener(new javax.swing.event.PopupMenuListener() {
+    @Override
+    public void popupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent e) {
+        if (shane[0]) {
+            if (!maica[0]) {
+                maica[0] = true;
+                comboBox.setModel(originalModel);
+                maica[0] = false;
+            }
+           shane[0] = false; 
+        }
+    }
+    
+    @Override
+    public void popupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent e) {
+       shane[0] = false; 
+    }
+    
+    @Override
+    public void popupMenuCanceled(javax.swing.event.PopupMenuEvent e) {
+        shane[0] = false; 
+    }
+});
+
+    editor.getDocument().addDocumentListener(new DocumentListener() {
+    @Override
+    public void insertUpdate(DocumentEvent e) {
+        if (!maica[0] && !shane[0]) {
+            filterTimer.restart();
+        }
+    }
+    
+    @Override
+    public void removeUpdate(DocumentEvent e) {
+        if (!maica[0] && !shane[0]) {
+            filterTimer.restart();
+        }
+    }
+    
+    @Override
+    public void changedUpdate(DocumentEvent e) {
+        if (!maica[0] && !shane[0]) {
+            filterTimer.restart();
+        }
+    }
+});
+
+   filterTimer.addActionListener(e -> {
+    if (maica[0] || shane[0]) return; 
+    String input = editor.getText();
+    if (input == null) input = "";
+    
+   
+    final int caretPosition = editor.getCaretPosition();
+    niel[0] = input;
+    
+   
+    boolean showPopup = input.length() > 0;
+    
+    if (input.isEmpty()) {
+     
+       maica[0] = true;
+        comboBox.setModel(originalModel);
+        editor.setText("");
+        maica[0] = false;
+    } else {
+       
+        DefaultComboBoxModel<String> filteredModel = new DefaultComboBoxModel<>();
+        String inputLower = input.toLowerCase();
+        
+       
+        int maxResults = 20;
+        int count = 0;
+        
+        for (String item : fullItemList) {
+            if (item.toLowerCase().contains(inputLower)) {
+                filteredModel.addElement(item);
+                count++;
+                if (count >= maxResults) break;
+            }
+        }
+        
+        if (filteredModel.getSize() > 0) {
+            maica[0] = true;
+            comboBox.setModel(filteredModel);
+            
+            if (showPopup) {
+                comboBox.setSelectedItem(input);
+                editor.setText(input);
+                editor.setCaretPosition(Math.min(caretPosition, input.length()));
+                
+              
+                if (editor.isFocusOwner() && filteredModel.getSize() > 0) {
+                    comboBox.showPopup();
+                }
+            }
+            maica[0] = false;
+        }
+    }
+});
+
+
+editor.addFocusListener(new java.awt.event.FocusAdapter() {
+    @Override
+    public void focusGained(java.awt.event.FocusEvent evt) {
+        if (editor.getText().length() > 0 && !maica[0] && !shane[0]) {
+            filterTimer.restart();
+        }
+    }
+});
+
+
+editor.addFocusListener(new java.awt.event.FocusAdapter() {
+    @Override
+    public void focusLost(java.awt.event.FocusEvent evt) {
+        comboBox.hidePopup();
+    }
+});
+
+
+comboBox.addActionListener(evt -> {
+    if (maica[0]) return; 
+    if (comboBox.getSelectedItem() != null) {
+        String selected = comboBox.getSelectedItem().toString();
+        if (!selected.equals(niel[0])) {
+            maica[0] = true;
+            
+          
+            editor.setText(selected);
+            niel[0] = selected;
+            
+           
+            comboBox.hidePopup();
+            
+           
+            SwingUtilities.invokeLater(() -> {
+                comboBox.setModel(originalModel);
+                comboBox.setSelectedItem(selected);
+                maica[0] = false;
+            });
+        }
+    }
+});
+ 
+    
+    }
       
     /**
      * This method handles the currency conversion logic when the Convert button is clicked.
@@ -742,7 +823,7 @@ public class ConverterPage extends javax.swing.JFrame {
      * - Calculates and displays the converted and reverse amounts
      * - Shows error if input is invalid
      * 
-     * @param evt The action event triggered by clicking the Convert button.
+     * @param  The action event triggered by clicking the Convert button.
      */
    
     private void btnConvertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConvertActionPerformed
