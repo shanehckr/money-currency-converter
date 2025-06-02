@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package moneycurrencyconverter;
 import java.awt.Component;
 import java.util.Map;
@@ -16,6 +13,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.text.*;
 
 public class ConverterPage extends javax.swing.JFrame {
    
@@ -40,7 +38,10 @@ public class ConverterPage extends javax.swing.JFrame {
     public ConverterPage() {
         initComponents();
         
-        setSize(425,610);
+        //setSize(425,610);
+        
+        
+        this.setLocationRelativeTo(null);
             
         currencyList = Arrays.asList (
                 "AED - Emirati Dirhams",
@@ -78,7 +79,7 @@ public class ConverterPage extends javax.swing.JFrame {
                 "CVE - Cape Verdean Escudo",
                 "CZK - Czech Koruna",
                 "DJF - Djiboutian Francs",
-                "DKK - Danish Krone",
+                "DKK - Denmark",
                 "DOP - Dominican Pesos",
                 "DZD - Algerian Dinar",
                 "EEK - Estonian Kroon",
@@ -199,7 +200,7 @@ public class ConverterPage extends javax.swing.JFrame {
                 "ZAR - South African Rand",
                 "ZMW - Zambian Kwacha",
                 "ZWG - Zimbabwean Dollar",
-                "DKK - Danish Krone",
+                "DKK - Greenland",
                 "EUR - Guadeloupe",
                 "USD - Guam",
                 "EUR - Martinique",
@@ -211,8 +212,8 @@ public class ConverterPage extends javax.swing.JFrame {
                 "USD - Palau",
                 "NZD -Pitcairn Islands",
                 "USD - Puerto Rico",
-                "EUR - ReunionCHANGE",
-                "EUR - Saint BarthelemyCHANGE",
+                "EUR - Rèunion",
+                "EUR - Saint Barthèlemy",
                 "XCD - Saint Kitts and Nevis",
                 "XCD - Saint Lucia",
                 "EUR - Saint Martin",
@@ -243,6 +244,7 @@ public class ConverterPage extends javax.swing.JFrame {
         cbTo.setSelectedItem("AFN - Afghan Afghani");
         
         appStarted = true;
+        limitAmountInput();
      
         rates.put("AED",3.67);
         rates.put("AFN",70.99);
@@ -431,6 +433,29 @@ public class ConverterPage extends javax.swing.JFrame {
         lblToValue.setVisible(false);
     }
 
+
+    private void limitAmountInput() {
+        ((AbstractDocument) txtAmount.getDocument()).setDocumentFilter(new DocumentFilter() {
+            @Override
+            public void replace(FilterBypass fb, int offset, int length, String text, AttributeSet attrs) throws BadLocationException {
+                String current = fb.getDocument().getText(0, fb.getDocument().getLength());
+                StringBuilder newText = new StringBuilder(current);
+                newText.replace(offset, offset + length, text);
+
+                if (newText.toString().matches("\\d{0,12}(\\.\\d*)?")) {
+                    super.replace(fb, offset, length, text, attrs);
+                }
+            }
+
+            @Override
+            public void insertString(FilterBypass fb, int offset, String string, AttributeSet attr) throws BadLocationException {
+                replace(fb, offset, 0, string, attr);
+            }
+        });
+    }
+
+    
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -448,7 +473,7 @@ public class ConverterPage extends javax.swing.JFrame {
         lblFromValue = new javax.swing.JLabel();
         lblResult = new javax.swing.JLabel();
         lblToValue = new javax.swing.JLabel();
-        btnExit = new javax.swing.JButton();
+        btnCancel = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Money Currency Converter");
@@ -458,6 +483,7 @@ public class ConverterPage extends javax.swing.JFrame {
 
         lblProject.setFont(new java.awt.Font("Ebrima", 1, 24)); // NOI18N
         lblProject.setForeground(new java.awt.Color(0, 0, 102));
+        lblProject.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblProject.setText("Money Converter");
 
         lblAmount.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -512,46 +538,47 @@ public class ConverterPage extends javax.swing.JFrame {
         lblFromValue.setText("jLabel1");
 
         lblResult.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        lblResult.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         lblResult.setText("jLabel1");
 
         lblToValue.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblToValue.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblToValue.setText("jLabel1");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(lblProject)
-                .addGap(61, 61, 61))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(30, 30, 30)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(lblAmount)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(lblFromValue)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(lblResult, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblToValue, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(lblTo, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(lblFrom, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 228, Short.MAX_VALUE))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
                                 .addGap(6, 6, 6)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(txtAmount, javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(cbFrom, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(cbTo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(btnConvert, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                        .addGap(30, 30, 30))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(lblAmount)
-                        .addContainerGap(245, Short.MAX_VALUE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblResult)
-                            .addComponent(lblToValue)
-                            .addComponent(lblFromValue))
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                        .addGap(30, 30, 30))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(83, Short.MAX_VALUE)
+                .addComponent(lblProject)
+                .addGap(62, 62, 62))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -576,15 +603,15 @@ public class ConverterPage extends javax.swing.JFrame {
                 .addComponent(btnConvert, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblResult)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lblToValue)
-                .addContainerGap(42, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        btnExit.setText("Cancel");
-        btnExit.addActionListener(new java.awt.event.ActionListener() {
+        btnCancel.setText("Cancel");
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnExitActionPerformed(evt);
+                btnCancelActionPerformed(evt);
             }
         });
 
@@ -593,146 +620,139 @@ public class ConverterPage extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(50, Short.MAX_VALUE)
+                .addContainerGap(55, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(50, 50, 50))
+                        .addComponent(btnCancel)
+                        .addGap(19, 19, 19))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(btnExit)
-                        .addGap(18, 18, 18))))
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(51, 51, 51))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(50, 50, 50)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnExit, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(59, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 472, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(29, 29, 29)
+                .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12))
         );
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
+        getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
     private void searchBar(JComboBox<String> comboBox, List<String> fullItemList) {
         JTextField editor = (JTextField) comboBox.getEditor().getEditorComponent();
         DefaultComboBoxModel<String> originalModel = new DefaultComboBoxModel<>();
-    for (String item : fullItemList) { 
-    originalModel.addElement(item); 
-}
+        
+        for (String item : fullItemList) { 
+            originalModel.addElement(item);
+        }
 
-final String[] niel = {null};
-final boolean[] maica = {false}; 
-final boolean[] shane = {false}; 
-// Add a delay timer to prevent filtering on every keystroke
-final Timer filterTimer = new Timer(0, null);
-filterTimer.setRepeats(false);
+        final String[] oldSelection = {null};
+        final boolean[] UpdatingModel = {false}; 
+        final boolean[] dropdownClicked = {false}; 
+        
+        // Add a delay timer to prevent filtering on every keystroke
+        final Timer filterTimer = new Timer(0, null);
+        filterTimer.setRepeats(false);
 
-// Get the arrow button component
+        // Get the arrow button component
 
-   Component[] components = comboBox.getComponents();
-   JButton jay = null;
-   for (Component comp : components) {
-    if (comp instanceof JButton) {
-        jay =(JButton) comp;
-        break;
-    }
-}
-
-
-    if (jay != null) {
-    jay.addMouseListener(new java.awt.event.MouseAdapter() {
-        @Override
-        public void mousePressed(java.awt.event.MouseEvent evt) {
-            shane[0] = true;
-           
-            if (!maica[0]) {
-                maica[0] = true;
-                comboBox.setModel(originalModel);
-               maica[0] = false;
+           Component[] components = comboBox.getComponents();
+           JButton arrowButton = null;
+           for (Component comp : components) {
+            if (comp instanceof JButton) {
+                arrowButton =(JButton) comp;
+                break;
             }
         }
-    });
-}
+
+
+        if (arrowButton!= null) {
+        arrowButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                dropdownClicked[0] = true;
+
+                if (!UpdatingModel[0]) {
+                    UpdatingModel[0] = true;
+                    comboBox.setModel(originalModel);
+                   UpdatingModel[0] = false;
+                }
+            }
+        });
+    }
 
 
     comboBox.addPopupMenuListener(new javax.swing.event.PopupMenuListener() {
     @Override
     public void popupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent e) {
-        if (shane[0]) {
-            if (!maica[0]) {
-                maica[0] = true;
+        if (dropdownClicked[0]) {
+            if (!UpdatingModel[0]) {
+                UpdatingModel[0] = true;
                 comboBox.setModel(originalModel);
-                maica[0] = false;
+                UpdatingModel[0] = false;
             }
-           shane[0] = false; 
+           dropdownClicked[0] = false; 
         }
     }
     
     @Override
     public void popupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent e) {
-       shane[0] = false; 
+       dropdownClicked[0] = false; 
     }
     
     @Override
     public void popupMenuCanceled(javax.swing.event.PopupMenuEvent e) {
-        shane[0] = false; 
+        dropdownClicked[0] = false; 
     }
-});
+    });
 
     editor.getDocument().addDocumentListener(new DocumentListener() {
     @Override
     public void insertUpdate(DocumentEvent e) {
-        if (!maica[0] && !shane[0]) {
+        if (!UpdatingModel[0] && !dropdownClicked[0]) {
             filterTimer.restart();
         }
     }
     
     @Override
     public void removeUpdate(DocumentEvent e) {
-        if (!maica[0] && !shane[0]) {
+        if (!UpdatingModel[0] && !dropdownClicked[0]) {
             filterTimer.restart();
         }
     }
     
     @Override
     public void changedUpdate(DocumentEvent e) {
-        if (!maica[0] && !shane[0]) {
+        if (!UpdatingModel[0] && !dropdownClicked[0]) {
             filterTimer.restart();
         }
     }
-});
+    });
 
    filterTimer.addActionListener(e -> {
-    if (maica[0] || shane[0]) return; 
+    if (UpdatingModel[0] || dropdownClicked[0]) return; 
     String input = editor.getText();
     if (input == null) input = "";
     
    
     final int caretPosition = editor.getCaretPosition();
-    niel[0] = input;
+    oldSelection[0] = input;
     
    
     boolean showPopup = input.length() > 0;
     
-    if (input.isEmpty()) {
+        if (input.isEmpty()) {
      
-       maica[0] = true;
+       UpdatingModel[0] = true;
         comboBox.setModel(originalModel);
         editor.setText("");
-        maica[0] = false;
-    } else {
+        UpdatingModel[0] = false;
+        } else {
        
         DefaultComboBoxModel<String> filteredModel = new DefaultComboBoxModel<>();
         String inputLower = input.toLowerCase();
@@ -750,7 +770,7 @@ filterTimer.setRepeats(false);
         }
         
         if (filteredModel.getSize() > 0) {
-            maica[0] = true;
+            UpdatingModel[0] = true;
             comboBox.setModel(filteredModel);
             
             if (showPopup) {
@@ -761,58 +781,56 @@ filterTimer.setRepeats(false);
               
                 if (editor.isFocusOwner() && filteredModel.getSize() > 0) {
                     comboBox.showPopup();
+                    }
+                }
+                UpdatingModel[0] = false;
+            }
+        }
+        });
+
+
+        editor.addFocusListener(new java.awt.event.FocusAdapter() {
+            @Override
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                if (editor.getText().length() > 0 && !UpdatingModel[0] && !dropdownClicked[0]) {
+                    filterTimer.restart();
                 }
             }
-            maica[0] = false;
-        }
-    }
-});
+        });
 
 
-editor.addFocusListener(new java.awt.event.FocusAdapter() {
-    @Override
-    public void focusGained(java.awt.event.FocusEvent evt) {
-        if (editor.getText().length() > 0 && !maica[0] && !shane[0]) {
-            filterTimer.restart();
-        }
-    }
-});
+        editor.addFocusListener(new java.awt.event.FocusAdapter() {
+            @Override
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                comboBox.hidePopup();
+            }
+        });
 
 
-editor.addFocusListener(new java.awt.event.FocusAdapter() {
-    @Override
-    public void focusLost(java.awt.event.FocusEvent evt) {
-        comboBox.hidePopup();
-    }
-});
+        comboBox.addActionListener(evt -> {
+            if (UpdatingModel[0]) return; 
+            if (comboBox.getSelectedItem() != null) {
+                String selected = comboBox.getSelectedItem().toString();
+                if (!selected.equals(oldSelection[0])) {
+                    UpdatingModel[0] = true;
 
 
-comboBox.addActionListener(evt -> {
-    if (maica[0]) return; 
-    if (comboBox.getSelectedItem() != null) {
-        String selected = comboBox.getSelectedItem().toString();
-        if (!selected.equals(niel[0])) {
-            maica[0] = true;
-            
-          
-            editor.setText(selected);
-            niel[0] = selected;
-            
-           
-            comboBox.hidePopup();
+                    editor.setText(selected);
+                    oldSelection[0] = selected;
+
+
+                    comboBox.hidePopup();
             
            
             SwingUtilities.invokeLater(() -> {
                 comboBox.setModel(originalModel);
                 comboBox.setSelectedItem(selected);
-                maica[0] = false;
+                UpdatingModel[0] = false;
             });
         }
     }
-});
- 
-    
-    }
+    });
+  }
       
     /**
      * This method handles the currency conversion logic when the Convert button is clicked.
@@ -823,7 +841,7 @@ comboBox.addActionListener(evt -> {
      * - Calculates and displays the converted and reverse amounts
      * - Shows error if input is invalid
      * 
-     * @param  The action event triggered by clicking the Convert button.
+     * @param evt The action event triggered by clicking the Convert button.
      */
    
     private void btnConvertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConvertActionPerformed
@@ -850,8 +868,8 @@ comboBox.addActionListener(evt -> {
             
             // Display result
             lblFromValue.setText(String.format(" %s =", fromCode));
-            lblResult.setText(String.format("%.8f %s", result, toCode));
-            lblToValue.setText(String.format(" %.2f %s = %.5f %s", amount, toCode, reverseResult, fromCode));
+            lblResult.setText(String.format("%.2f %s", result, toCode));
+            lblToValue.setText(String.format(" %.2f %s = %.2f %s", amount, toCode, reverseResult, fromCode));
             
             // Make labels visible
             lblFromValue.setVisible(true);
@@ -926,9 +944,9 @@ comboBox.addActionListener(evt -> {
         
     }//GEN-LAST:event_txtAmountActionPerformed
 
-    private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
+    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
        System.exit(0);
-    }//GEN-LAST:event_btnExitActionPerformed
+    }//GEN-LAST:event_btnCancelActionPerformed
 
     public static void main(String args[]) {
       
@@ -940,8 +958,8 @@ comboBox.addActionListener(evt -> {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnConvert;
-    private javax.swing.JButton btnExit;
     private javax.swing.JComboBox<String> cbFrom;
     private javax.swing.JComboBox<String> cbTo;
     private javax.swing.JPanel jPanel1;
