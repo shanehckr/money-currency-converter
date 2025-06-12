@@ -1,5 +1,5 @@
-
 package moneycurrencyconverter;
+
 import java.awt.Component;
 import java.util.Map;
 import java.util.HashMap;
@@ -16,34 +16,29 @@ import javax.swing.event.DocumentListener;
 import javax.swing.text.*;
 
 public class ConverterPage extends javax.swing.JFrame {
-   
+
     boolean appStarted = false;
     String selectedBase = "";
-    
-     // Currency list
+
+    // Currency list
     private final List<String> currencyList;
-    
+
     // Currency conversion rates
     Map<String, Double> rates = new HashMap<>();
-    
+
     /**
      * This constructor set up the currency converter page.
-     * 
+     *
      * It initializes the window size, loads the currency list and its rates,
-     * fills the "From" and "To" combo boxes with currencies,
-     * makes them editable with search capability,
-     * and sets default selected currencies.
+     * fills the "From" and "To" combo boxes with currencies, makes them
+     * editable with search capability, and sets default selected currencies.
      */
-    
     public ConverterPage() {
         initComponents();
-        
-        //setSize(425,610);
-        
-        
+
         this.setLocationRelativeTo(null);
-            
-        currencyList = Arrays.asList (
+
+        currencyList = Arrays.asList(
                 "AED - Emirati Dirhams",
                 "AFN - Afghan Afghani",
                 "ALL - Albanian Leke",
@@ -224,46 +219,26 @@ public class ConverterPage extends javax.swing.JFrame {
                 "XOF - CFA Francs",
                 "SSP - South Sudanese Pound",
                 "USD - United States of America"
-        );    
-        
-        cbFrom.removeAllItems();
-        cbTo.removeAllItems();
-         
-        for (String currency: currencyList) { 
-            cbFrom.addItem(currency);
-            cbTo.addItem(currency);
-        }
-     
-        cbFrom.setEditable(true);
-        cbTo.setEditable(true);
-        
-        searchBar(cbFrom, currencyList);
-        searchBar(cbTo, currencyList);
-       
-        cbFrom.setSelectedItem("ALL - Emirati Dirhams");
-        cbTo.setSelectedItem("AFN - Afghan Afghani");
-        
-        appStarted = true;
-        limitAmountInput();
-     
-        rates.put("AED",3.67);
-        rates.put("AFN",70.99);
-        rates.put("ALL",86.81);
-        rates.put("AMD",387.57);
-        rates.put("ANG",1.78);
-        rates.put("AOA",918.61);
-        rates.put("ARS",1173.61);
-        rates.put("AUD",1.56);
-        rates.put("AZN",1.69);
-        rates.put("BAM",1.71);
-        rates.put("BBD",2.00);
-        rates.put("BDT",121.43);
-        rates.put("BGN",1.71);
-        rates.put("BHD",0.376);
-        rates.put("BIF",2974.26);
-        rates.put("BMD",1.00);
-        rates.put("BND",1.31);
-        rates.put("BOB",6.91);
+        );
+
+        rates.put("AED", 3.67);
+        rates.put("AFN", 70.99);
+        rates.put("ALL", 86.81);
+        rates.put("AMD", 387.57);
+        rates.put("ANG", 1.78);
+        rates.put("AOA", 918.61);
+        rates.put("ARS", 1173.61);
+        rates.put("AUD", 1.56);
+        rates.put("AZN", 1.69);
+        rates.put("BAM", 1.71);
+        rates.put("BBD", 2.00);
+        rates.put("BDT", 121.43);
+        rates.put("BGN", 1.71);
+        rates.put("BHD", 0.376);
+        rates.put("BIF", 2974.26);
+        rates.put("BMD", 1.00);
+        rates.put("BND", 1.31);
+        rates.put("BOB", 6.91);
         rates.put("BRL", 5.62);
         rates.put("BSD", 1.00);
         rates.put("BTN", 85.17);
@@ -426,6 +401,26 @@ public class ConverterPage extends javax.swing.JFrame {
         rates.put("XOF", 580.00);
         rates.put("SSP", 600.49);
         rates.put("USD", 1.00);
+
+        cbFrom.removeAllItems();
+        cbTo.removeAllItems();
+        
+        for (String currency : currencyList) {
+            cbFrom.addItem(currency);
+            cbTo.addItem(currency);
+        }
+
+        cbFrom.setEditable(true);
+        cbTo.setEditable(true);
+
+        searchBar(cbFrom, currencyList);
+        searchBar(cbTo, currencyList);
+
+        cbFrom.setSelectedItem("AED - Emirati Dirhams");
+        cbTo.setSelectedItem("AFN - Afghan Afghani");
+        
+        appStarted = true;
+        limitAmountInput();
         
         // Make labels not visible if there's no conversion
         lblFromValue.setVisible(false);
@@ -433,7 +428,10 @@ public class ConverterPage extends javax.swing.JFrame {
         lblToValue.setVisible(false);
     }
 
-
+    /**
+     * This method limits the user input in the amount text field to a maximum of 12 digits.
+     */    
+    
     private void limitAmountInput() {
         ((AbstractDocument) txtAmount.getDocument()).setDocumentFilter(new DocumentFilter() {
             @Override
@@ -454,14 +452,12 @@ public class ConverterPage extends javax.swing.JFrame {
         });
     }
 
-    
-    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
+        paddingPanelOne = new javax.swing.JPanel();
+        paddingPanelTwo = new javax.swing.JPanel();
         lblProject = new javax.swing.JLabel();
         lblAmount = new javax.swing.JLabel();
         txtAmount = new javax.swing.JTextField();
@@ -479,7 +475,7 @@ public class ConverterPage extends javax.swing.JFrame {
         setTitle("Money Currency Converter");
         setResizable(false);
 
-        jPanel1.setBackground(new java.awt.Color(0, 0, 102));
+        paddingPanelOne.setBackground(new java.awt.Color(0, 0, 102));
 
         lblProject.setFont(new java.awt.Font("Ebrima", 1, 24)); // NOI18N
         lblProject.setForeground(new java.awt.Color(0, 0, 102));
@@ -528,6 +524,7 @@ public class ConverterPage extends javax.swing.JFrame {
         btnConvert.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         btnConvert.setForeground(new java.awt.Color(255, 255, 255));
         btnConvert.setText("Convert");
+        btnConvert.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnConvert.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnConvertActionPerformed(evt);
@@ -542,47 +539,47 @@ public class ConverterPage extends javax.swing.JFrame {
         lblResult.setText("jLabel1");
 
         lblToValue.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lblToValue.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblToValue.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         lblToValue.setText("jLabel1");
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        javax.swing.GroupLayout paddingPanelTwoLayout = new javax.swing.GroupLayout(paddingPanelTwo);
+        paddingPanelTwo.setLayout(paddingPanelTwoLayout);
+        paddingPanelTwoLayout.setHorizontalGroup(
+            paddingPanelTwoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(paddingPanelTwoLayout.createSequentialGroup()
                 .addGap(30, 30, 30)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(paddingPanelTwoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(paddingPanelTwoLayout.createSequentialGroup()
                         .addComponent(lblAmount)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
+                    .addGroup(paddingPanelTwoLayout.createSequentialGroup()
                         .addComponent(lblFromValue)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, paddingPanelTwoLayout.createSequentialGroup()
+                        .addGroup(paddingPanelTwoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(lblResult, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(lblToValue, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, paddingPanelTwoLayout.createSequentialGroup()
+                                .addGroup(paddingPanelTwoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(lblTo, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(lblFrom, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, paddingPanelTwoLayout.createSequentialGroup()
                                 .addGap(6, 6, 6)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(paddingPanelTwoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(txtAmount, javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(cbFrom, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(cbTo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(btnConvert, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                         .addGap(30, 30, 30))))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(83, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, paddingPanelTwoLayout.createSequentialGroup()
+                .addContainerGap(81, Short.MAX_VALUE)
                 .addComponent(lblProject)
-                .addGap(62, 62, 62))
+                .addGap(73, 73, 73))
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        paddingPanelTwoLayout.setVerticalGroup(
+            paddingPanelTwoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(paddingPanelTwoLayout.createSequentialGroup()
                 .addGap(35, 35, 35)
                 .addComponent(lblProject)
                 .addGap(33, 33, 33)
@@ -603,7 +600,7 @@ public class ConverterPage extends javax.swing.JFrame {
                 .addComponent(btnConvert, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblResult)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblToValue)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -615,179 +612,184 @@ public class ConverterPage extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(55, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout paddingPanelOneLayout = new javax.swing.GroupLayout(paddingPanelOne);
+        paddingPanelOne.setLayout(paddingPanelOneLayout);
+        paddingPanelOneLayout.setHorizontalGroup(
+            paddingPanelOneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(paddingPanelOneLayout.createSequentialGroup()
+                .addContainerGap(68, Short.MAX_VALUE)
+                .addGroup(paddingPanelOneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, paddingPanelOneLayout.createSequentialGroup()
                         .addComponent(btnCancel)
                         .addGap(19, 19, 19))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(51, 51, 51))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, paddingPanelOneLayout.createSequentialGroup()
+                        .addComponent(paddingPanelTwo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(66, 66, 66))))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(59, Short.MAX_VALUE)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 472, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29)
+        paddingPanelOneLayout.setVerticalGroup(
+            paddingPanelOneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(paddingPanelOneLayout.createSequentialGroup()
+                .addContainerGap(64, Short.MAX_VALUE)
+                .addComponent(paddingPanelTwo, javax.swing.GroupLayout.PREFERRED_SIZE, 478, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(12, 12, 12))
         );
 
-        getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
+        getContentPane().add(paddingPanelOne, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+    /**
+     * This method filters the items in a combo box based on the user's search input.
+     * 
+     * @param comboBox the JComboBox to be filtered
+     * @param fullItemList the complete list of items available for selection
+     */
+    
     private void searchBar(JComboBox<String> comboBox, List<String> fullItemList) {
         JTextField editor = (JTextField) comboBox.getEditor().getEditorComponent();
         DefaultComboBoxModel<String> originalModel = new DefaultComboBoxModel<>();
-        
-        for (String item : fullItemList) { 
+
+        for (String item : fullItemList) {
             originalModel.addElement(item);
         }
 
         final String[] oldSelection = {null};
-        final boolean[] UpdatingModel = {false}; 
-        final boolean[] dropdownClicked = {false}; 
-        
+        final boolean[] UpdatingModel = {false};
+        final boolean[] dropdownClicked = {false};
+
         // Add a delay timer to prevent filtering on every keystroke
         final Timer filterTimer = new Timer(0, null);
         filterTimer.setRepeats(false);
 
         // Get the arrow button component
-
-           Component[] components = comboBox.getComponents();
-           JButton arrowButton = null;
-           for (Component comp : components) {
+        Component[] components = comboBox.getComponents();
+        JButton arrowButton = null;
+        for (Component comp : components) {
             if (comp instanceof JButton) {
-                arrowButton =(JButton) comp;
+                arrowButton = (JButton) comp;
                 break;
             }
         }
 
+        if (arrowButton != null) {
+            arrowButton.addMouseListener(new java.awt.event.MouseAdapter() {
+                @Override
+                public void mousePressed(java.awt.event.MouseEvent evt) {
+                    dropdownClicked[0] = true;
 
-        if (arrowButton!= null) {
-        arrowButton.addMouseListener(new java.awt.event.MouseAdapter() {
-            @Override
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                dropdownClicked[0] = true;
-
-                if (!UpdatingModel[0]) {
-                    UpdatingModel[0] = true;
-                    comboBox.setModel(originalModel);
-                   UpdatingModel[0] = false;
-                }
-            }
-        });
-    }
-
-
-    comboBox.addPopupMenuListener(new javax.swing.event.PopupMenuListener() {
-    @Override
-    public void popupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent e) {
-        if (dropdownClicked[0]) {
-            if (!UpdatingModel[0]) {
-                UpdatingModel[0] = true;
-                comboBox.setModel(originalModel);
-                UpdatingModel[0] = false;
-            }
-           dropdownClicked[0] = false; 
-        }
-    }
-    
-    @Override
-    public void popupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent e) {
-       dropdownClicked[0] = false; 
-    }
-    
-    @Override
-    public void popupMenuCanceled(javax.swing.event.PopupMenuEvent e) {
-        dropdownClicked[0] = false; 
-    }
-    });
-
-    editor.getDocument().addDocumentListener(new DocumentListener() {
-    @Override
-    public void insertUpdate(DocumentEvent e) {
-        if (!UpdatingModel[0] && !dropdownClicked[0]) {
-            filterTimer.restart();
-        }
-    }
-    
-    @Override
-    public void removeUpdate(DocumentEvent e) {
-        if (!UpdatingModel[0] && !dropdownClicked[0]) {
-            filterTimer.restart();
-        }
-    }
-    
-    @Override
-    public void changedUpdate(DocumentEvent e) {
-        if (!UpdatingModel[0] && !dropdownClicked[0]) {
-            filterTimer.restart();
-        }
-    }
-    });
-
-   filterTimer.addActionListener(e -> {
-    if (UpdatingModel[0] || dropdownClicked[0]) return; 
-    String input = editor.getText();
-    if (input == null) input = "";
-    
-   
-    final int caretPosition = editor.getCaretPosition();
-    oldSelection[0] = input;
-    
-   
-    boolean showPopup = input.length() > 0;
-    
-        if (input.isEmpty()) {
-     
-       UpdatingModel[0] = true;
-        comboBox.setModel(originalModel);
-        editor.setText("");
-        UpdatingModel[0] = false;
-        } else {
-       
-        DefaultComboBoxModel<String> filteredModel = new DefaultComboBoxModel<>();
-        String inputLower = input.toLowerCase();
-        
-       
-        int maxResults = 20;
-        int count = 0;
-        
-        for (String item : fullItemList) {
-            if (item.toLowerCase().contains(inputLower)) {
-                filteredModel.addElement(item);
-                count++;
-                if (count >= maxResults) break;
-            }
-        }
-        
-        if (filteredModel.getSize() > 0) {
-            UpdatingModel[0] = true;
-            comboBox.setModel(filteredModel);
-            
-            if (showPopup) {
-                comboBox.setSelectedItem(input);
-                editor.setText(input);
-                editor.setCaretPosition(Math.min(caretPosition, input.length()));
-                
-              
-                if (editor.isFocusOwner() && filteredModel.getSize() > 0) {
-                    comboBox.showPopup();
+                    if (!UpdatingModel[0]) {
+                        UpdatingModel[0] = true;
+                        comboBox.setModel(originalModel);
+                        UpdatingModel[0] = false;
                     }
                 }
-                UpdatingModel[0] = false;
-            }
+            });
         }
+
+        comboBox.addPopupMenuListener(new javax.swing.event.PopupMenuListener() {
+            @Override
+            public void popupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent e) {
+                if (dropdownClicked[0]) {
+                    if (!UpdatingModel[0]) {
+                        UpdatingModel[0] = true;
+                        comboBox.setModel(originalModel);
+                        UpdatingModel[0] = false;
+                    }
+                    dropdownClicked[0] = false;
+                }
+            }
+
+            @Override
+            public void popupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent e) {
+                dropdownClicked[0] = false;
+            }
+
+            @Override
+            public void popupMenuCanceled(javax.swing.event.PopupMenuEvent e) {
+                dropdownClicked[0] = false;
+            }
         });
 
+        editor.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                if (!UpdatingModel[0] && !dropdownClicked[0]) {
+                    filterTimer.restart();
+                }
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                if (!UpdatingModel[0] && !dropdownClicked[0]) {
+                    filterTimer.restart();
+                }
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                if (!UpdatingModel[0] && !dropdownClicked[0]) {
+                    filterTimer.restart();
+                }
+            }
+        });
+
+        filterTimer.addActionListener(e -> {
+            if (UpdatingModel[0] || dropdownClicked[0]) {
+                return;
+            }
+            String input = editor.getText();
+            if (input == null) {
+                input = "";
+            }
+
+            final int caretPosition = editor.getCaretPosition();
+            oldSelection[0] = input;
+
+            boolean showPopup = input.length() > 0;
+
+            if (input.isEmpty()) {
+
+                UpdatingModel[0] = true;
+                comboBox.setModel(originalModel);
+                editor.setText("");
+                UpdatingModel[0] = false;
+            } else {
+
+                DefaultComboBoxModel<String> filteredModel = new DefaultComboBoxModel<>();
+                String inputLower = input.toLowerCase();
+
+                int maxResults = 20;
+                int count = 0;
+
+                for (String item : fullItemList) {
+                    if (item.toLowerCase().contains(inputLower)) {
+                        filteredModel.addElement(item);
+                        count++;
+                        if (count >= maxResults) {
+                            break;
+                        }
+                    }
+                }
+
+                if (filteredModel.getSize() > 0) {
+                    UpdatingModel[0] = true;
+                    comboBox.setModel(filteredModel);
+
+                    if (showPopup) {
+                        comboBox.setSelectedItem(input);
+                        editor.setText(input);
+                        editor.setCaretPosition(Math.min(caretPosition, input.length()));
+
+                        if (editor.isFocusOwner() && filteredModel.getSize() > 0) {
+                            comboBox.showPopup();
+                        }
+                    }
+                    UpdatingModel[0] = false;
+                }
+            }
+        });
 
         editor.addFocusListener(new java.awt.event.FocusAdapter() {
             @Override
@@ -798,7 +800,6 @@ public class ConverterPage extends javax.swing.JFrame {
             }
         });
 
-
         editor.addFocusListener(new java.awt.event.FocusAdapter() {
             @Override
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -806,120 +807,115 @@ public class ConverterPage extends javax.swing.JFrame {
             }
         });
 
-
         comboBox.addActionListener(evt -> {
-            if (UpdatingModel[0]) return; 
+            if (UpdatingModel[0]) {
+                return;
+            }
             if (comboBox.getSelectedItem() != null) {
                 String selected = comboBox.getSelectedItem().toString();
                 if (!selected.equals(oldSelection[0])) {
                     UpdatingModel[0] = true;
 
-
                     editor.setText(selected);
                     oldSelection[0] = selected;
 
-
                     comboBox.hidePopup();
-            
-           
-            SwingUtilities.invokeLater(() -> {
-                comboBox.setModel(originalModel);
-                comboBox.setSelectedItem(selected);
-                UpdatingModel[0] = false;
-            });
-        }
+
+                    SwingUtilities.invokeLater(() -> {
+                        comboBox.setModel(originalModel);
+                        comboBox.setSelectedItem(selected);
+                        UpdatingModel[0] = false;
+                    });
+                }
+            }
+        });
     }
-    });
-  }
-      
+
     /**
-     * This method handles the currency conversion logic when the Convert button is clicked.
-     * Converts the entered amount from one currency to another using exchange rates.
-     * 
-     * - Gets amount and selected currencies
-     * - Retrieves exchange rates from the rates map
-     * - Calculates and displays the converted and reverse amounts
-     * - Shows error if input is invalid
-     * 
+     * This method handles the currency conversion logic when the Convert button
+     * is clicked. Converts the entered amount from one currency to another
+     * using exchange rates.
+     *
+     * - Gets amount and selected currencies - Retrieves exchange rates from the
+     * rates map
+     * - Calculates and displays the converted and reverse amounts 
+     * -  Shows error if input is invalid
+     *
      * @param evt The action event triggered by clicking the Convert button.
      */
-   
+
     private void btnConvertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConvertActionPerformed
-     
-           try {
-            // Get the amount entered by the user
+
+        try {
             double amount = Double.parseDouble(txtAmount.getText());
-            
-            // Get selected items from combo boxes
+
             String fromFull = cbFrom.getSelectedItem().toString();
             String toFull = cbTo.getSelectedItem().toString();
 
-            // Extract currency codes
             String fromCode = fromFull.split(" ")[0];
             String toCode = toFull.split(" ")[0];
-            
-            // Get the exchange rates
+
             double rateFrom = rates.get(fromCode);
             double rateTo = rates.get(toCode);
 
-            // Calculate conversion
             double result = amount / rateFrom * rateTo;
             double reverseResult = amount / rateTo * rateFrom;
-            
-            // Display result
+
             lblFromValue.setText(String.format(" %s =", fromCode));
             lblResult.setText(String.format("%.2f %s", result, toCode));
             lblToValue.setText(String.format(" %.2f %s = %.2f %s", amount, toCode, reverseResult, fromCode));
-            
-            // Make labels visible
+
             lblFromValue.setVisible(true);
             lblResult.setVisible(true);
             lblToValue.setVisible(true);
             btnConvert.setVisible(false);
 
         } catch (NumberFormatException e) {
-            // Hnadle error if user input is  not a number
             lblResult.setText("Please enter a valid number.");
         } catch (Exception ex) {
-            // Handle other errors
             lblResult.setText("An error occurred. Check your inputs.");
         }
     }//GEN-LAST:event_btnConvertActionPerformed
 
     /**
-     * This method runs when the user selects an item in the "From" currency combo box.
-     * It sets the selected currency as the base currency for conversion.
-     * 
-     * It also shows the Convert Button and hides the result labels until conversion.
-     * 
+     * This method runs when the user selects an item in the "From" currency
+     * combo box. It sets the selected currency as the base currency for
+     * conversion.
+     *
+     * It also shows the Convert Button and hides the result labels until
+     * conversion.
+     *
      * @param evt The event triggered by selecting an item in the combo box.
      */
-    
+
     private void cbFromActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbFromActionPerformed
-        
+
         if (!appStarted) {
             return;
         }
-      
+
         String selectedFull = (String) cbFrom.getSelectedItem();
-        if (selectedFull == null) return;
-        
+        if (selectedFull == null) {
+            return;
+        }
+
         selectedBase = selectedFull;
 
         btnConvert.setVisible(true);
         lblFromValue.setVisible(false);
         lblResult.setVisible(false);
         lblToValue.setVisible(false);
-         
+
     }//GEN-LAST:event_cbFromActionPerformed
 
     /**
-     * This method runs when a key is released in the amount text field.
-     * It resets the result view by showing the Convert button and hiding ll result labels.
-     * 
+     * This method runs when a key is released in the amount text field. It
+     * resets the result view by showing the Convert button and hiding ll result
+     * labels.
+     *
      * @param evt The key event triggered when a key is released.
      */
-    
+
     private void txtAmountKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtAmountKeyReleased
         btnConvert.setVisible(true);
         lblFromValue.setVisible(false);
@@ -928,11 +924,13 @@ public class ConverterPage extends javax.swing.JFrame {
     }//GEN-LAST:event_txtAmountKeyReleased
 
     /**
-     * This method runs when the user selects an item in the "To" currency combo box.
-     * It shows the Convert Button and hides the result labels to reset the view.
-     * @param evt 
+     * This method runs when the user selects an item in the "To" currency combo
+     * box. It shows the Convert Button and hides the result labels to reset the
+     * view.
+     *
+     * @param evt
      */
-    
+
     private void cbToActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbToActionPerformed
         btnConvert.setVisible(true);
         lblFromValue.setVisible(false);
@@ -941,15 +939,16 @@ public class ConverterPage extends javax.swing.JFrame {
     }//GEN-LAST:event_cbToActionPerformed
 
     private void txtAmountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAmountActionPerformed
-        
+
     }//GEN-LAST:event_txtAmountActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
-       System.exit(0);
+        // Exit the application
+        System.exit(0);
     }//GEN-LAST:event_btnCancelActionPerformed
 
     public static void main(String args[]) {
-      
+
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new ConverterPage().setVisible(true);
@@ -962,8 +961,6 @@ public class ConverterPage extends javax.swing.JFrame {
     private javax.swing.JButton btnConvert;
     private javax.swing.JComboBox<String> cbFrom;
     private javax.swing.JComboBox<String> cbTo;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel lblAmount;
     private javax.swing.JLabel lblFrom;
     private javax.swing.JLabel lblFromValue;
@@ -971,6 +968,8 @@ public class ConverterPage extends javax.swing.JFrame {
     private javax.swing.JLabel lblResult;
     private javax.swing.JLabel lblTo;
     private javax.swing.JLabel lblToValue;
+    private javax.swing.JPanel paddingPanelOne;
+    private javax.swing.JPanel paddingPanelTwo;
     private javax.swing.JTextField txtAmount;
     // End of variables declaration//GEN-END:variables
 }
